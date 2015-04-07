@@ -31,4 +31,5 @@
     name: keepalived
     state: started
     enabled: yes
+    pattern: /usr/sbin/keepalived
   tags: [configuration, keepalived, keepalived-start-enable-service]
