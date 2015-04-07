@@ -21,7 +21,7 @@
 - name: allow binding non-local IP
   sysctl:
     name: net.ipv4.ip_nonlocal_bind
-    value: 1
+    value: '1'
     state: present
   notify: reload sysctl
   tags: [configuration, keepalived, keepalived-ip-nonlocal-bind]
