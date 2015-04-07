@@ -5,3 +5,35 @@
   sudo: true
   roles:
     - keepalived
+
+  vars:
+    keepalived_global_defs_notification_email:
+      - 'root@localhost.localdomain'
+    keepalived_global_defs_notification_email_from: 'root@localhost.localdomain'
+    keepalived_global_defs_smtp_server: 'localhost'
+    keepalived_global_defs_smtp_connect_timeout: 30
+
+    keepalived_vrrp_scripts:
+      chk_haproxy:
+        script: 'killall -0 haproxy'
+        weight: 2
+        interval: 1
+
+    keepalived_vrrp_instances:
+      VI_1:
+        interface: eth1
+        state: MASTER
+        priority: 101
+        virtual_router_id: 51
+        advert_int: 1
+        smtp_alert: false
+
+        authentication:
+          auth_type: PASS
+          auth_pass: '4Apr3C*d'
+
+        virtual_ipaddresses:
+          - '10.0.0.10/24'
+
+        track_scripts:
+          - chk_haproxy

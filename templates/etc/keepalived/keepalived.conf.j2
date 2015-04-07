@@ -1,0 +1,53 @@
+# {{ ansible_managed }}
+
+global_defs {
+  notification_email {
+  {% for notification_email in keepalived_global_defs_notification_email %}
+    {{ notification_email }}
+  {% endfor -%}
+  }
+  notification_email_from {{ keepalived_global_defs_notification_email_from }}
+  smtp_server {{ keepalived_global_defs_smtp_server }}
+  smtp_connect_timeout {{ keepalived_global_defs_smtp_connect_timeout }}
+}
+
+{% for key, value in keepalived_vrrp_scripts.iteritems() %}
+vrrp_script {{ key }} {
+  script "{{ value.script }}"
+  weight {{ value.weight }}
+  interval {{ value.interval }}
+}
+{% endfor %}
+
+{% for key, value in keepalived_vrrp_instances.iteritems() %}
+vrrp_instance {{ key }} {
+  interface {{ value.interface }}
+  state {{ value.state }}
+  priority {{ value.priority }}
+  virtual_router_id {{ value.virtual_router_id }}
+  {% if value.advert_int is defined and value.advert_int | int %}
+  advert_int {{ value.advert_int }}
+  {% endif %}
+
+  {% if value.smtp_alert is defined and value.smtp_alert | bool %}
+  smtp_alert
+  {% endif %}
+
+  authentication {
+    auth_type {{ value.authentication.auth_type }}
+    auth_pass {{ value.authentication.auth_pass }}
+  }
+
+  virtual_ipaddress {
+  {% for virtual_ipaddress in value.virtual_ipaddresses %}
+    {{ virtual_ipaddress }}
+  {% endfor -%}
+  }
+
+  track_script {
+  {% for track_script in value.track_scripts %}
+    {{ track_script }}
+  {% endfor -%}
+  }
+}
+{% endfor %}
