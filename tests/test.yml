@@ -1,0 +1,6 @@
+# test file for keepalived
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - ansible-keepalived
