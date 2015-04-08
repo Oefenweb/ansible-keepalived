@@ -1,0 +1,9 @@
+# test file for keepalived
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - ansible-keepalived
+  vars:
+    # Do not try to set net.ipv4.ip_nonlocal_bind, which fails on travis-ci
+    keepalived_ip_nonlocal_bind: false

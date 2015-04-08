@@ -1,0 +1,37 @@
+# tasks file for keepalived
+---
+- name: install package
+  apt:
+    name: keepalived
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+  tags: [configuration, keepalived, keepalived-install]
+
+- name: update configuration file
+  template:
+    src: etc/keepalived/keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart keepalived
+  tags: [configuration, keepalived, keepalived-configuration]
+
+- name: allow binding non-local IP
+  sysctl:
+    name: net.ipv4.ip_nonlocal_bind
+    value: "{{ keepalived_ip_nonlocal_bind }}"
+    state: present
+  notify: reload sysctl
+  when: keepalived_ip_nonlocal_bind != false
+  tags: [configuration, keepalived, keepalived-ip-nonlocal-bind]
+
+- name: start and enable service
+  service:
+    name: keepalived
+    state: started
+    enabled: yes
+    # Pattern is needed to fix failure in Ubuntu 10.04 and idempotency in 12.04 and 14.04
+    pattern: /usr/sbin/keepalived
+  tags: [configuration, keepalived, keepalived-start-enable-service]
