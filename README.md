@@ -29,8 +29,8 @@ None
 * `keepalived_vrrp_instances.key.state`: Start-up default state (`MASTER|BACKUP`). As soon as the other machine(s) come up, an election will be held and the machine with the highest `priority` will become `MASTER`
 * `keepalived_vrrp_instances.key.priority`: For electing `MASTER` highest priority (`0...255`) wins
 * `keepalived_vrrp_instances.key.virtual_router_id`: Arbitrary unique number (`0...255`) used to differentiate multiple instances of VRRPD running on the same NIC (and hence same socket)
-* `keepalived_vrrp_instances.key.advert_int`: The advert interval in seconds
-* `keepalived_vrrp_instances.key.smtp_alert`: Whether or not to send email notifications during state transitioning
+* `keepalived_vrrp_instances.key.advert_int`: The advert interval in seconds (optional)
+* `keepalived_vrrp_instances.key.smtp_alert`: Whether or not to send email notifications during state transitioning (optional)
 * `keepalived_vrrp_instances.key.authentication`: Authentication block
 * `keepalived_vrrp_instances.key.authentication.auth_type`: Simple password or IPSEC AH (`PASS|AH`)
 * `keepalived_vrrp_instances.key.authentication.auth_pass`: Password string (up to 8 characters)
