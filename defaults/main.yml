@@ -1,5 +1,7 @@
 # defaults file for keepalived
 ---
+keepalived_ip_nonlocal_bind: 1
+
 keepalived_global_defs_notification_email:
   - 'root@localhost.localdomain'
 keepalived_global_defs_notification_email_from: 'root@localhost.localdomain'

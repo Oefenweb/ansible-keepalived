@@ -5,7 +5,6 @@
   sudo: true
   roles:
     - keepalived
-
   vars:
     keepalived_global_defs_notification_email:
       - 'root@localhost.localdomain'

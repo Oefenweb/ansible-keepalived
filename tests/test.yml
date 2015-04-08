@@ -4,3 +4,5 @@
   remote_user: root
   roles:
     - ansible-keepalived
+  vars:
+    keepalived_ip_nonlocal_bind: false

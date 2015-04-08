@@ -21,9 +21,10 @@
 - name: allow binding non-local IP
   sysctl:
     name: net.ipv4.ip_nonlocal_bind
-    value: '1'
+    value: "{{ keepalived_ip_nonlocal_bind }}"
     state: present
   notify: reload sysctl
+  when: keepalived_ip_nonlocal_bind != false
   tags: [configuration, keepalived, keepalived-ip-nonlocal-bind]
 
 - name: start and enable service
