@@ -6,12 +6,6 @@
   roles:
     - keepalived
   vars:
-    keepalived_global_defs_notification_email:
-      - 'root@localhost.localdomain'
-    keepalived_global_defs_notification_email_from: 'root@localhost.localdomain'
-    keepalived_global_defs_smtp_server: 'localhost'
-    keepalived_global_defs_smtp_connect_timeout: 30
-
     keepalived_vrrp_scripts:
       chk_haproxy:
         script: 'killall -0 haproxy'

@@ -14,8 +14,12 @@ global_defs {
 {% for key, value in keepalived_vrrp_scripts.iteritems() %}
 vrrp_script {{ key }} {
   script "{{ value.script }}"
+  {% if value.weight is defined %}
   weight {{ value.weight }}
+  {% endif %}
+  {% if value.interval is defined and value.interval | int %}
   interval {{ value.interval }}
+  {% endif %}
 }
 {% endfor %}
 
