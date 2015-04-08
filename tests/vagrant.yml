@@ -18,15 +18,13 @@
         state: MASTER
         priority: 101
         virtual_router_id: 51
-        advert_int: 1
-        smtp_alert: false
 
         authentication:
           auth_type: PASS
           auth_pass: '4Apr3C*d'
 
         virtual_ipaddresses:
-          - '10.0.0.10/24'
+          - '10.0.0.10/24 dev eth1 label eth1:1'
 
         track_scripts:
           - chk_haproxy
