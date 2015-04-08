@@ -12,6 +12,9 @@ env:
 before_install:
   - sudo apt-get update -qq
 
+  # Remove keepalived
+  - sudo apt-get remove --purge keepalived
+
 install:
   # Install Ansible.
   - pip install ansible==$ANSIBLE_VERSION
