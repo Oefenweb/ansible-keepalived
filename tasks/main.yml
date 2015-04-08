@@ -32,5 +32,6 @@
     name: keepalived
     state: started
     enabled: yes
+    # Pattern is needed to fix failure in Ubuntu 10.04 and idempotency in 12.04 and 14.04
     pattern: /usr/sbin/keepalived
   tags: [configuration, keepalived, keepalived-start-enable-service]
