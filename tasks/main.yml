@@ -1,21 +1,31 @@
 # tasks file for keepalived
 ---
-- name: install package
+- name: install dependencies
   yum:
-    name: keepalived
+    name: "{{ item }}"
     state: present
     update_cache: true
+  with_items: keepalived_dependencies
   when: ansible_os_family == 'RedHat'
-  tags: [configuration, keepalived, keepalived-install]
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-install
+    - keepalived-install-redhat
 
-- name: install package
+- name: install dependencies
   apt:
-    name: keepalived
+    name: "{{ item }}"
     state: latest
     update_cache: true
     cache_valid_time: 3600
+  with_items: keepalived_dependencies
   when: ansible_os_family == 'Debian'
-  tags: [configuration, keepalived, keepalived-install]
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-install
+    - keepalived-install-debian
 
 - name: update configuration file
   template:
@@ -25,7 +35,10 @@
     group: root
     mode: 0640
   notify: restart keepalived
-  tags: [configuration, keepalived, keepalived-configuration]
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-configuration
 
 - name: allow binding non-local IP
   sysctl:
@@ -34,7 +47,10 @@
     state: present
   notify: reload sysctl
   when: keepalived_ip_nonlocal_bind != false
-  tags: [configuration, keepalived, keepalived-ip-nonlocal-bind]
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-ip-nonlocal-bind
 
 - name: start and enable service
   service:
@@ -43,4 +59,7 @@
     enabled: yes
     # Pattern is needed to fix failure in Ubuntu 10.04 and idempotency in 12.04 and 14.04
     pattern: /usr/sbin/keepalived
-  tags: [configuration, keepalived, keepalived-start-enable-service]
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-start-enable-service
