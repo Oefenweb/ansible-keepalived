@@ -1,2 +1,4 @@
 # vars file for keepalived
 ---
+keepalived_dependencies:
+  - keepalived

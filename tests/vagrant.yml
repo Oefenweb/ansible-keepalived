@@ -4,7 +4,7 @@
   remote_user: vagrant
   sudo: true
   roles:
-    - keepalived
+    - ../../
   vars:
     keepalived_vrrp_scripts:
       chk_haproxy:
