@@ -47,7 +47,7 @@ None
 ---
 - hosts: all
   roles:
-  - keepalived
+    - keepalived
 ```
 
 ##### HAProxy
