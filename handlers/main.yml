@@ -4,6 +4,3 @@
   service:
     name: keepalived
     state: restarted
-
-- name: reload sysctl
-  command: sysctl -p
