@@ -44,7 +44,7 @@
   sysctl:
     name: net.ipv4.ip_nonlocal_bind
     value: "{{ keepalived_ip_nonlocal_bind }}"
-    reload: yes
+    reload: true
     state: present
   when: keepalived_ip_nonlocal_bind != false
   tags:
@@ -56,7 +56,7 @@
   service:
     name: keepalived
     state: started
-    enabled: yes
+    enabled: true
     # Pattern is needed to fix failure in Ubuntu 10.04 and idempotency in 12.04 and 14.04
     pattern: /usr/sbin/keepalived
   tags:
