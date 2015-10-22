@@ -48,10 +48,39 @@ vrrp_instance {{ key }} {
   {% endfor -%}
   }
 
+  {% if track_script is defined %}
   track_script {
   {% for track_script in value.track_scripts %}
     {{ track_script }}
   {% endfor -%}
   }
+  {% endif %}
+}
+{% endfor %}
+
+{% for key, value in keepalived_ipvs_servers.iteritems() %}
+# {{ key }}
+virtual_server {{ value.virtual_server_ip }} {{ value.virtual_server_port }} {
+  delay_loop {{ value.delay_loop | default('3') }}
+  lb_algo {{ value.lb_algo | default('rr') }}
+  lb_kind {{ value.lb_kind | default('DR') }}
+  protocol {{ value.protocol | default('TCP') }}
+{% if  persistence_timeout is defined %}
+  persistence_timeout {{  persistence_timeout }}
+{% endif %}
+  {% if value.ha_suspend is defined and ha_suspend | bool %}
+  ha_suspend
+  {% endif %}
+  
+{% for key, value in value.real_servers.iteritems() %}
+  # {{ key }}
+  real_server {{ value.real_server_ip }} {{ value.real_server_port }} {
+    weight {{ value.weight | default('1') }}
+    TCP_CHECK {
+      connect_port {{ value.real_server_port }}
+      connect_timeout {{ connect_timeout | default('3') }}
+    }
+  }
+{% endfor %}
 }
 {% endfor %}
