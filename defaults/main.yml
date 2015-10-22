@@ -1,6 +1,6 @@
 # defaults file for keepalived
 ---
-keepalived_enabled: true
+keepalived_enabled: false
 keepalived_ip_nonlocal_bind: 1
 
 keepalived_global_defs_notification_email:
