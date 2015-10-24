@@ -38,7 +38,7 @@ vrrp_instance {{ key }} {
   {% endif -%}
 
   authentication {
-    auth_type {{ value.authentication.auth_type }}
+    auth_type {{ value.authentication.auth_type | default('PASS') }}
     auth_pass {{ value.authentication.auth_pass }}
   }
 
@@ -72,17 +72,14 @@ virtual_server {{ value.virtual_server_ip }} {{ value.virtual_server_port }} {
   ha_suspend
   {% endif %}
 
-  {% for key, value in value.real_servers.iteritems() -%}
-  # {{ key }}
-  real_server {{ value.real_server_ip }} {{ value.real_server_port }} {
-    weight {{ value.weight | default('1') }}
-    {% if value.tcp_check -%}
-      TCP_CHECK {
-        connect_port {{ value.real_server_port }}
-        connect_timeout {{ connect_timeout | default('3') }}
+  {% for real_server_ip in value.real_servers -%}
+  real_server {{ real_server_ip }} {{ value.virtual_server_port }} {
+    weight 1024
+    TCP_CHECK {
+      connect_port {{ value.virtual_server_port }}
+      connect_timeout 3
     }
-  {% endif -%}
-}
+  }
   {% endfor -%}
 }
 {% endfor -%}
