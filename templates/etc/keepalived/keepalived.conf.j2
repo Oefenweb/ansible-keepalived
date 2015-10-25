@@ -63,7 +63,7 @@ vrrp_instance {{ key }} {
 virtual_server {{ value.virtual_server_ip }} {{ value.virtual_server_port }} {
   delay_loop {{ value.delay_loop | default('3') }}
   lb_algo {{ value.lb_algo | default('sh') }}
-  lb_kind {{ value.lb_kind | default('DR') }}
+  lb_kind {{ value.lb_kind | default('NAT') }}
   protocol {{ value.protocol | default('TCP') }}
   {% if  persistence_timeout is defined -%}
   persistence_timeout {{  persistence_timeout }}
