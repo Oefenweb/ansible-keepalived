@@ -58,11 +58,11 @@ vrrp_instance {{ key }} {
 {% endfor %}
 
 {% if keepalived_ipvs_servers is defined %}
-{% for key, value in keepalived_ipvs_servers.iteritems() -%}
+{% for key, value in keepalived_ipvs_servers.iteritems() %}
 # {{ key }}
 virtual_server {{ value.virtual_server_ip }} {{ value.virtual_server_port }} {
   delay_loop {{ value.delay_loop | default('3') }}
-  lb_algo {{ value.lb_algo | default('rr') }}
+  lb_algo {{ value.lb_algo | default('sh') }}
   lb_kind {{ value.lb_kind | default('DR') }}
   protocol {{ value.protocol | default('TCP') }}
   {% if  persistence_timeout is defined -%}
