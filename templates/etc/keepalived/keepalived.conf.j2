@@ -2,9 +2,9 @@
 
 global_defs {
   notification_email {
-  {% for notification_email in keepalived_global_defs_notification_email %}
+{% for notification_email in keepalived_global_defs_notification_email %}
     {{ notification_email }}
-  {% endfor -%}
+{% endfor %}
   }
   notification_email_from {{ keepalived_global_defs_notification_email_from }}
   smtp_server {{ keepalived_global_defs_smtp_server }}
@@ -14,12 +14,12 @@ global_defs {
 {% for key, value in keepalived_vrrp_scripts.iteritems() %}
 vrrp_script {{ key }} {
   script "{{ value.script }}"
-  {% if value.weight is defined %}
+{% if value.weight is defined %}
   weight {{ value.weight }}
-  {% endif %}
-  {% if value.interval is defined and value.interval | int %}
+{% endif %}
+{% if value.interval is defined and value.interval | int %}
   interval {{ value.interval }}
-  {% endif %}
+{% endif %}
 }
 {% endfor %}
 
@@ -29,13 +29,13 @@ vrrp_instance {{ key }} {
   state {{ value.state }}
   priority {{ value.priority }}
   virtual_router_id {{ value.virtual_router_id }}
-  {% if value.advert_int is defined and value.advert_int | int %}
+{% if value.advert_int is defined and value.advert_int | int %}
   advert_int {{ value.advert_int }}
-  {% endif %}
+{% endif %}
 
-  {% if value.smtp_alert is defined and value.smtp_alert | bool %}
+{% if value.smtp_alert is defined and value.smtp_alert | bool %}
   smtp_alert
-  {% endif %}
+{% endif %}
 
   authentication {
     auth_type {{ value.authentication.auth_type }}
@@ -43,15 +43,15 @@ vrrp_instance {{ key }} {
   }
 
   virtual_ipaddress {
-  {% for virtual_ipaddress in value.virtual_ipaddresses %}
+{% for virtual_ipaddress in value.virtual_ipaddresses %}
     {{ virtual_ipaddress }}
-  {% endfor -%}
+{% endfor %}
   }
 
   track_script {
-  {% for track_script in value.track_scripts %}
+{% for track_script in value.track_scripts %}
     {{ track_script }}
-  {% endfor -%}
+{% endfor %}
   }
 }
 {% endfor %}
