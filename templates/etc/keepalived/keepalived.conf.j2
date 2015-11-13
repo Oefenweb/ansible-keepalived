@@ -53,5 +53,18 @@ vrrp_instance {{ key }} {
     {{ track_script }}
 {% endfor %}
   }
+
+{% if value.notify is defined %}
+  notify "{{ value.notify }}"
+{% endif %}
+{% if value.notify_backup is defined %}
+  notify_backup "{{ value.notify_backup }}"
+{% endif %}
+{% if value.notify_fault is defined %}
+  notify_fault "{{ value.notify_fault }}"
+{% endif %}
+{% if value.notify_master is defined %}
+  notify_master "{{ value.notify_master }}"
+{% endif %}
 }
 {% endfor %}

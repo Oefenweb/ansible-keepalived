@@ -17,6 +17,14 @@ None
 * `keepalived_global_defs_smtp_server` [default: `'127.0.0.1'`]: SMTP server IP address
 * `keepalived_global_defs_smtp_connect_timeout` [default: `30`]: SMTP server connect timeout in seconds
 
+* `keepalived_vrrp_script_map` [default: `{}`]: Script declarations
+* `keepalived_vrrp_script_map.key`: [required]: The identifier of the file (e.g. `check-haproxy`)
+* `keepalived_vrrp_script_map.key.src`: [required]: The local path of the file to copy, can be absolute or relative (e.g. `../../../files/keepalived/usr/local/bin/check-haproxy`)
+* `keepalived_vrrp_script_map.key.dest`: [required]: The remote path of the file to copy (e.g. `/usr/local/bin/check-haproxy`)
+* `keepalived_vrrp_script_map.key.owner`: [optional, default `root`]: The name of the user that should own the file
+* `keepalived_vrrp_script_map.key.group`: [optional, default `root`]:The name of the group that should own the file
+* `keepalived_vrrp_script_map.key.mode`: [optional, default `0750`]: The mode of the file
+
 * `keepalived_vrrp_scripts` [default: `{}`]: VRRP script declarations
 * `keepalived_vrrp_scripts.key`: The name of the VRRP script
 * `keepalived_vrrp_scripts.key.script`: The script to run periodically
@@ -36,6 +44,11 @@ None
 * `keepalived_vrrp_instances.key.authentication.auth_pass`: Password string (up to 8 characters)
 * `keepalived_vrrp_instances.key.virtual_ipaddresses`: VRRP IP address block
 * `keepalived_vrrp_instances.key.track_scripts`: Scripts state we monitor
+
+* `keepalived_vrrp_instances.key.notify`: Scripts that is invoked when a server changes state
+* `keepalived_vrrp_instances.key.notify_backup`: Scripts that is invoked when a server changes state (to `BACKUP`)
+* `keepalived_vrrp_instances.key.notify_fault`: Scripts that is invoked when a server changes state (to `FAULT`)
+* `keepalived_vrrp_instances.key.notify_master`: Scripts that is invoked when a server changes state (to `MASTER`)
 
 ## Dependencies
 
