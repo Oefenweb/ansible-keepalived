@@ -5,7 +5,7 @@ galaxy_info:
   company: Oefenweb.nl B.V.
   description: Set up keepalived in Ubuntu systems
   license: MIT
-  min_ansible_version: 1.4
+  min_ansible_version: 1.5
   platforms:
     - name: Ubuntu
       versions:
