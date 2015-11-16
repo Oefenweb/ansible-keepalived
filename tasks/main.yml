@@ -27,6 +27,20 @@
     - keepalived-install
     - keepalived-install-debian
 
+- name: copy script files
+  copy:
+    src: "{{ item.value.src }}"
+    dest: "{{ item.value.dest }}"
+    owner: "{{ item.value.owner | default('root') }}"
+    group: "{{ item.value.group | default('root') }}"
+    mode: "{{ item.value.mode | default('0750') }}"
+  with_dict: keepalived_vrrp_script_map
+  notify: restart keepalived
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-scripts
+
 - name: update configuration file
   template:
     src: etc/keepalived/keepalived.conf.j2

@@ -6,6 +6,11 @@
   roles:
     - ../../
   vars:
+    keepalived_vrrp_script_map:
+      keepalived-notify:
+        src: ../../../files/keepalived/usr/local/bin/keepalived-notify
+        dest: /usr/local/bin/keepalived-notify
+
     keepalived_vrrp_scripts:
       chk_haproxy:
         script: 'killall -0 haproxy'
@@ -28,3 +33,5 @@
 
         track_scripts:
           - chk_haproxy
+
+        notify: "{{ keepalived_vrrp_script_map['keepalived-notify']['dest'] }}"
