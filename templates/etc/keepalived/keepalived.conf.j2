@@ -48,6 +48,13 @@ vrrp_instance {{ key }} {
 {% endfor %}
   }
 
+{% if value.nopreempt is defined and value.nopreempt | bool %}
+  nopreempt
+{% endif %}
+{% if value.preempt_delay is defined %}
+  preempt_delay {{ value.preempt_delay }}
+{% endif %}
+
   track_script {
 {% for track_script in value.track_scripts %}
     {{ track_script }}
