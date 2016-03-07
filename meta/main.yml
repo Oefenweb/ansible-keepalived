@@ -15,7 +15,7 @@ galaxy_info:
     - name: EL
       versions:
         - 7
-  categories:
+  galaxy_tags:
     - system
     - networking
     - clustering
