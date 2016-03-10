@@ -35,21 +35,10 @@ env:
   - ANSIBLE_VERSION=1.6.10
   - ANSIBLE_VERSION=1.6.1
   - ANSIBLE_VERSION=1.6
-  - ANSIBLE_VERSION=1.5.5
-  - ANSIBLE_VERSION=1.5.4
-  - ANSIBLE_VERSION=1.5.3
-  - ANSIBLE_VERSION=1.5.2
-  - ANSIBLE_VERSION=1.5.1
-  - ANSIBLE_VERSION=1.5
 
 branches:
   only:
     - master
-
-matrix:
-  allow_failures:
-    # See https://github.com/ansible/ansible/issues/6385
-    - env: ANSIBLE_VERSION=1.5.1
 
 before_install:
   - sudo apt-get update -qq
@@ -59,7 +48,7 @@ before_install:
 
 install:
   # Install Ansible.
-  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install --no-binary ansible ansible; else pip install --no-binary ansible ansible==$ANSIBLE_VERSION; fi
 
 script:
   # Check the role/playbook's syntax.
