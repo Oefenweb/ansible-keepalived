@@ -44,7 +44,7 @@ before_install:
   - sudo apt-get update -qq
 
   # Remove keepalived
-  - sudo apt-get remove --purge keepalived
+  - sudo apt-get remove --purge --yes keepalived
 
 install:
   # Install Ansible.
