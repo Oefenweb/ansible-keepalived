@@ -1,26 +1,12 @@
 # tasks file for keepalived
 ---
 - name: install dependencies
-  yum:
-    name: "{{ item }}"
-    state: present
-    update_cache: true
-  with_items: keepalived_dependencies
-  when: ansible_os_family == 'RedHat'
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-install
-    - keepalived-install-redhat
-
-- name: install dependencies
   apt:
     name: "{{ item }}"
     state: latest
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
   with_items: keepalived_dependencies
-  when: ansible_os_family == 'Debian'
   tags:
     - configuration
     - keepalived
