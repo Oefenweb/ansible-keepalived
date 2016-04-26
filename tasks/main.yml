@@ -1,31 +1,70 @@
 # tasks file for keepalived
 ---
 - name: install dependencies
-  yum:
-    name: "{{ item }}"
-    state: present
-    update_cache: true
-  with_items: keepalived_dependencies
-  when: ansible_os_family == 'RedHat'
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-install
-    - keepalived-install-redhat
-
-- name: install dependencies
   apt:
     name: "{{ item }}"
     state: latest
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
   with_items: keepalived_dependencies
-  when: ansible_os_family == 'Debian'
   tags:
     - configuration
     - keepalived
     - keepalived-install
-    - keepalived-install-debian
+
+- name: remove (distro version)
+  apt:
+    name: keepalived
+    state: absent
+    purge: true
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-remove
+    - keepalived-remove-distro
+
+- name: create (checkout) directory
+  file:
+    path: /var/lib/ansible/keepalived/checkouts
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-checkout
+
+- name: checkout repository
+  git:
+    repo: https://github.com/acassen/keepalived.git
+    dest: "{{ keepalived_checkout_path }}"
+    version: "{{ keepalived_version }}"
+  register: git_checkout
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-checkout
+
+- name: build and install
+  shell: ./configure && make && make install
+  args:
+    chdir: "{{ keepalived_checkout_path }}"
+  when: git_checkout | changed
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-build-and-install
+
+- name: cleanup build
+  shell: "git reset --hard && git clean -d -x -f"
+  args:
+    chdir: "{{ keepalived_checkout_path }}"
+  when: git_checkout | changed
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-cleanup-build
 
 - name: copy script files
   copy:
@@ -41,10 +80,37 @@
     - keepalived
     - keepalived-scripts
 
+- name: configure | stat directories
+  stat:
+    path: "{{ item }}/"
+  register: stat_directories
+  with_items:
+    - "{{ keepalived_configuration_file | dirname }}"
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-configure-directories
+    - keepalived-configure-directories-stat
+
+- name: configure | create directories
+  file:
+    path: "{{ item.item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items: "{{ stat_directories.results }}"
+  when: item.stat.exists == false
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-configure-directories
+    - keepalived-configure-directories-create
+
 - name: update configuration file
   template:
     src: etc/keepalived/keepalived.conf.j2
-    dest: /etc/keepalived/keepalived.conf
+    dest: "{{ keepalived_configuration_file }}"
     owner: root
     group: root
     mode: 0640
@@ -66,13 +132,24 @@
     - keepalived
     - keepalived-ip-nonlocal-bind
 
+- name: create init script
+  template:
+    src: etc/init/keepalived.conf.j2
+    dest: /etc/init/keepalived.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart keepalived
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-service-init
+
 - name: start and enable service
   service:
     name: keepalived
     state: started
     enabled: true
-    # Pattern is needed to fix failure in Ubuntu 10.04 and idempotency in 12.04 and 14.04
-    pattern: /usr/sbin/keepalived
   tags:
     - configuration
     - keepalived

@@ -2,13 +2,15 @@
 
 [![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/list#/roles/3349)
 
-Set up [Keepalived](http://www.keepalived.org/) in Ubuntu systems.
+Set up the latest or a specific version of [Keepalived](http://www.keepalived.org/) in Ubuntu systems.
 
 #### Requirements
 
 None
 
 #### Variables
+
+* `keepalived_version` [default: `v1.2.20`]: Keepalived version to install (e.g. `v1.2.20`)
 
 * `keepalived_ip_nonlocal_bind` [default: `1`]: Allow to bind to IP addresses that are nonlocal, meaning that they're not assigned to a device on the local system
 
