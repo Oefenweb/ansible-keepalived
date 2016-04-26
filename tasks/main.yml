@@ -13,6 +13,17 @@
     - keepalived-install
     - keepalived-install-debian
 
+- name: remove (distro version)
+  apt:
+    name: keepalived
+    state: absent
+    purge: true
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-remove
+    - keepalived-remove-distro
+
 - name: create (checkout) directory
   file:
     path: /var/lib/ansible/keepalived/checkouts
