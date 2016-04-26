@@ -1,4 +1,10 @@
 # vars file for keepalived
 ---
 keepalived_dependencies:
-  - keepalived
+  - git-core
+  - build-essential
+  - libssl-dev
+
+keepalived_checkout_path: /var/lib/ansible/keepalived/checkouts/keepalived
+
+keepalived_configuration_file: /etc/keepalived/keepalived.conf
