@@ -6,11 +6,47 @@
     state: latest
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: keepalived_dependencies
+  with_items: "{{ keepalived_dependencies }}"
   tags:
     - configuration
     - keepalived
     - keepalived-install
+    - keepalived-install-dependencies
+
+- name: create (checkout) directory
+  file:
+    path: "{{ keepalived_checkout_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-checkout
+    - keepalived-checkout-directory
+
+- name: checkout repository
+  git:
+    repo: https://github.com/acassen/keepalived.git
+    dest: "{{ keepalived_checkout_path }}"
+    version: "{{ keepalived_version }}"
+  register: git_checkout
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-checkout
+    - keepalived-checkout-repository
+
+- name: build
+  shell: ./configure && make
+  args:
+    chdir: "{{ keepalived_checkout_path }}"
+  when: git_checkout | changed
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-build
 
 - name: remove (distro version)
   apt:
@@ -23,38 +59,15 @@
     - keepalived-remove
     - keepalived-remove-distro
 
-- name: create (checkout) directory
-  file:
-    path: /var/lib/ansible/keepalived/checkouts
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-checkout
-
-- name: checkout repository
-  git:
-    repo: https://github.com/acassen/keepalived.git
-    dest: "{{ keepalived_checkout_path }}"
-    version: "{{ keepalived_version }}"
-  register: git_checkout
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-checkout
-
-- name: build and install
-  shell: ./configure && make && make install
+- name: install
+  shell: make install
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: git_checkout | changed
   tags:
     - configuration
     - keepalived
-    - keepalived-build-and-install
+    - keepalived-install
 
 - name: cleanup build
   shell: "git reset --hard && git clean -d -x -f"
@@ -64,21 +77,8 @@
   tags:
     - configuration
     - keepalived
+    - keepalived-cleanup
     - keepalived-cleanup-build
-
-- name: copy script files
-  copy:
-    src: "{{ item.value.src }}"
-    dest: "{{ item.value.dest }}"
-    owner: "{{ item.value.owner | default('root') }}"
-    group: "{{ item.value.group | default('root') }}"
-    mode: "{{ item.value.mode | default('0750') }}"
-  with_dict: keepalived_vrrp_script_map
-  notify: restart keepalived
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-scripts
 
 - name: configure | stat directories
   stat:
@@ -109,7 +109,7 @@
 
 - name: update configuration file
   template:
-    src: etc/keepalived/keepalived.conf.j2
+    src: "{{ keepalived_configuration_file.lstrip('/') }}.j2"
     dest: "{{ keepalived_configuration_file }}"
     owner: root
     group: root
@@ -119,6 +119,33 @@
     - configuration
     - keepalived
     - keepalived-configuration
+
+- name: copy script files
+  copy:
+    src: "{{ item.value.src }}"
+    dest: "{{ item.value.dest }}"
+    owner: "{{ item.value.owner | default('root') }}"
+    group: "{{ item.value.group | default('root') }}"
+    mode: "{{ item.value.mode | default('0750') }}"
+  with_dict: "{{ keepalived_vrrp_script_map }}"
+  notify: restart keepalived
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-scripts
+
+- name: create init script
+  template:
+    src: "{{ keepalived_init_script.lstrip('/') }}.j2"
+    dest: "{{ keepalived_init_script }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart keepalived
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-service-init
 
 - name: allow binding non-local IP
   sysctl:
@@ -131,19 +158,6 @@
     - configuration
     - keepalived
     - keepalived-ip-nonlocal-bind
-
-- name: create init script
-  template:
-    src: etc/init/keepalived.conf.j2
-    dest: /etc/init/keepalived.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart keepalived
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-service-init
 
 - name: start and enable service
   service:
