@@ -1,5 +1,17 @@
 # tasks file for keepalived
 ---
+- name: allow binding non-local IP
+  sysctl:
+    name: net.ipv4.ip_nonlocal_bind
+    value: "{{ keepalived_ip_nonlocal_bind }}"
+    reload: true
+    state: present
+  when: keepalived_ip_nonlocal_bind != false
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-ip-nonlocal-bind
+
 - name: install dependencies
   apt:
     name: "{{ item }}"
@@ -70,7 +82,7 @@
     - keepalived-install
 
 - name: cleanup build
-  shell: "git reset --hard && git clean -d -x -f"
+  shell: git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: git_checkout | changed
@@ -80,7 +92,7 @@
     - keepalived-cleanup
     - keepalived-cleanup-build
 
-- name: configure | stat directories
+- name: stat directories
   stat:
     path: "{{ item }}/"
   register: stat_directories
@@ -92,7 +104,7 @@
     - keepalived-configure-directories
     - keepalived-configure-directories-stat
 
-- name: configure | create directories
+- name: create directories
   file:
     path: "{{ item.item }}"
     state: directory
@@ -146,18 +158,6 @@
     - configuration
     - keepalived
     - keepalived-service-init
-
-- name: allow binding non-local IP
-  sysctl:
-    name: net.ipv4.ip_nonlocal_bind
-    value: "{{ keepalived_ip_nonlocal_bind }}"
-    reload: true
-    state: present
-  when: keepalived_ip_nonlocal_bind != false
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-ip-nonlocal-bind
 
 - name: start and enable service
   service:

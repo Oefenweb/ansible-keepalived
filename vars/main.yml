@@ -9,6 +9,3 @@ keepalived_checkout_path: /var/lib/ansible/keepalived/checkouts/keepalived
 
 keepalived_configuration_file: /etc/keepalived/keepalived.conf
 keepalived_init_script: /etc/init/keepalived.conf
-
-keepalived_options:
-  - name: dont-fork

@@ -6,6 +6,8 @@
   roles:
     - ../../
   vars:
+    keepalived_options:
+      - name: log-detail
 #    keepalived_vrrp_script_map:
 #      keepalived-notify:
 #        src: ../../../files/keepalived/usr/local/bin/keepalived-notify

@@ -6,5 +6,8 @@
   roles:
     - ../../
   vars:
+    keepalived_options:
+      - name: log-detail
+
     # Do not try to set net.ipv4.ip_nonlocal_bind, which fails on travis-ci
     keepalived_ip_nonlocal_bind: false

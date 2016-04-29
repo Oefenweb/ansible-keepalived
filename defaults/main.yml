@@ -1,6 +1,7 @@
 # defaults file for keepalived
 ---
 keepalived_version: v1.2.20
+keepalived_options: []
 
 keepalived_ip_nonlocal_bind: 1
 

@@ -12,6 +12,10 @@ None
 
 * `keepalived_version` [default: `v1.2.20`]: Keepalived version to install (e.g. `v1.2.20`)
 
+* `keepalived_options`: [default: `[]`]: Options to pass to the `keepalived`
+* `keepalived_options.{n}.name`: [required]: Option name (e.g. `log-facility`)
+* `keepalived_options.{n}.value`: [optional]: Option value (e.g. `7`)
+
 * `keepalived_ip_nonlocal_bind` [default: `1`]: Allow to bind to IP addresses that are nonlocal, meaning that they're not assigned to a device on the local system
 
 * `keepalived_global_defs_notification_email` [default: `['root@localhost.localdomain']`]: Email addresses to send alerts to
@@ -54,44 +58,42 @@ None
 * `keepalived_vrrp_instances.key.notify_fault`: Scripts that is invoked when a server changes state (to `FAULT`)
 * `keepalived_vrrp_instances.key.notify_master`: Scripts that is invoked when a server changes state (to `MASTER`)
 
-## Dependencies
+#### Dependencies
 
 None
 
-#### Example
+#### Example (HAProxy)
 
 ```yaml
 ---
 - hosts: all
   roles:
     - keepalived
-```
+  vars:
+    keepalived_options:
+      - name: log-detail
+    keepalived_vrrp_scripts:
+      chk_haproxy:
+        script: 'killall -0 haproxy'
+        weight: 2
+        interval: 1
 
-##### HAProxy
+    keepalived_vrrp_instances:
+      VI_1:
+        interface: eth1
+        state: MASTER
+        priority: 101
+        virtual_router_id: 51
 
-```yaml
-keepalived_vrrp_scripts:
-  chk_haproxy:
-    script: 'killall -0 haproxy'
-    weight: 2
-    interval: 1
+        authentication:
+          auth_type: PASS
+          auth_pass: '4Apr3C*d'
 
-keepalived_vrrp_instances:
-  VI_1:
-    interface: eth1
-    state: MASTER
-    priority: 101
-    virtual_router_id: 51
+        virtual_ipaddresses:
+          - '10.0.0.10/24 dev eth1 label eth1:1'
 
-    authentication:
-      auth_type: PASS
-      auth_pass: '4Apr3C*d'
-
-    virtual_ipaddresses:
-      - '10.0.0.10/24 dev eth1 label eth1:1'
-
-    track_scripts:
-      - chk_haproxy
+        track_scripts:
+          - chk_haproxy
 ```
 
 #### License
