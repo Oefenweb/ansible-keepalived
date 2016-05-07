@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+
+# keepalived
+
+description "Keepalived"
+author      "Mischa ter Smitten"
+
+start on net-device-up
+stop on runlevel [01S6]
+
+respawn
+
+script
+  exec start-stop-daemon \
+    --start \
+    --exec /usr/local/sbin/keepalived \
+    -- --dont-fork{% for option in keepalived_options %} --{{ option.name }}{% if option.value is defined %}={{ option.value }}{% endif %}{% endfor %} \
+end script
