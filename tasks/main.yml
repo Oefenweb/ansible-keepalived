@@ -76,6 +76,7 @@
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: git_checkout | changed
+  notify: restart keepalived
   tags:
     - configuration
     - keepalived
