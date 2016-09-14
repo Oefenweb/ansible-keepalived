@@ -10,7 +10,7 @@ None
 
 #### Variables
 
-* `keepalived_version` [default: `v1.2.20`]: Keepalived version to install (e.g. `v1.2.24`)
+* `keepalived_version` [default: `v1.2.21`]: Keepalived version to install
 
 * `keepalived_options`: [default: `[]`]: Options to pass to the `keepalived`
 * `keepalived_options.{n}.name`: [required]: Option name (e.g. `log-facility`)
