@@ -6,6 +6,11 @@
   roles:
     - ../../
   vars:
+    keepalived_install:
+      - libnl-3-dev
+      - libnl-genl-3-dev
+      - libnl-route-3-dev
+      - libnfnetlink-dev
     keepalived_options:
       - name: log-detail
 #    keepalived_vrrp_script_map:

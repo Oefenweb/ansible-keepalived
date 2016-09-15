@@ -25,6 +25,19 @@
     - keepalived-install
     - keepalived-install-dependencies
 
+- name: install additional
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  with_items: "{{ keepalived_install }}"
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-install
+    - keepalived-install-additional
+
 - name: create (checkout) directory
   file:
     path: "{{ keepalived_checkout_path }}"
@@ -50,6 +63,17 @@
     - keepalived-checkout
     - keepalived-checkout-repository
 
+- name: regenerate the build files
+  shell: aclocal && autoheader && automake --add-missing && autoreconf
+  args:
+    chdir: "{{ keepalived_checkout_path }}"
+  when: git_checkout | changed and keepalived_version | version_compare('v1.2.24', '>=')
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-build
+    - keepalived-build-regenerate-build-files
+
 - name: build
   shell: ./configure && make
   args:
@@ -59,6 +83,7 @@
     - configuration
     - keepalived
     - keepalived-build
+    - keepalived-build-configure-make
 
 - name: remove (distro version)
   apt:
