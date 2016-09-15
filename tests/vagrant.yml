@@ -6,6 +6,18 @@
   roles:
     - ../../
   vars:
+#    keepalived_install:
+#      - libnl-3-dev
+#      - libnl-genl-3-dev
+#      - libnl-route-3-dev
+#      - libnfnetlink-dev
+#      - libipset-dev
+#      - libiptcdata0-dev
+#      - iptables-dev
+#
+#    keepalived_configure_options:
+#      - '--enable-sha1'
+
     keepalived_options:
       - name: log-detail
 #    keepalived_vrrp_script_map:

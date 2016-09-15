@@ -75,7 +75,7 @@
     - keepalived-build-regenerate-build-files
 
 - name: build
-  shell: ./configure && make
+  shell: ./configure {{ keepalived_configure_options | join(' ') }} && make
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: git_checkout | changed
