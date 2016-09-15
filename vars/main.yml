@@ -3,6 +3,8 @@
 keepalived_dependencies:
   - git-core
   - build-essential
+  - automake
+  - pkg-config
   - libssl-dev
 
 keepalived_checkout_path: /var/lib/ansible/keepalived/checkouts/keepalived
