@@ -56,6 +56,7 @@
     repo: https://github.com/acassen/keepalived.git
     dest: "{{ keepalived_checkout_path }}"
     version: "{{ keepalived_version }}"
+    force: true
   register: git_checkout
   tags:
     - configuration
