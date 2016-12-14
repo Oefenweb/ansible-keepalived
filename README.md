@@ -1,6 +1,6 @@
 ## keepalived
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/list#/roles/3349)
+[![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/tersmitten/keepalived)
 
 Set up the latest or a specific version of [Keepalived](http://www.keepalived.org/) in Ubuntu systems.
 
@@ -14,7 +14,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 
 #### Variables
 
-* `keepalived_version` [default: `v1.2.24`]: Keepalived version to install
+* `keepalived_version` [default: `v1.3.2`]: Keepalived version to install
 
 * `keepalived_install`: [default: `[]`]: Additional packages to install (e.g. `['libnl-3-dev', 'libnl-genl-3-dev', 'libnl-route-3-dev', 'libnfnetlink-dev']`)
 * `keepalived_configure_options`: [default: `[]`]: Options to pass to `./configure`
