@@ -14,7 +14,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 
 #### Variables
 
-* `keepalived_version` [default: `v1.3.2`]: Keepalived version to install
+* `keepalived_version`: [default: `v1.3.2`]: Keepalived version to install
 
 * `keepalived_install`: [default: `[]`]: Additional packages to install (e.g. `['libnl-3-dev', 'libnl-genl-3-dev', 'libnl-route-3-dev', 'libnfnetlink-dev']`)
 * `keepalived_configure_options`: [default: `[]`]: Options to pass to `./configure`
@@ -23,14 +23,16 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_options.{n}.name`: [required]: Option name (e.g. `log-facility`)
 * `keepalived_options.{n}.value`: [optional]: Option value (e.g. `7`)
 
-* `keepalived_ip_nonlocal_bind` [default: `1`]: Allow to bind to IP addresses that are nonlocal, meaning that they're not assigned to a device on the local system
+* `keepalived_ip_nonlocal_bind`: [default: `1`]: Allow to bind to IP addresses that are nonlocal, meaning that they're not assigned to a device on the local system
 
-* `keepalived_global_defs_notification_email` [default: `['root@localhost.localdomain']`]: Email addresses to send alerts to
-* `keepalived_global_defs_notification_email_from` [default: `'root@localhost.localdomain'`]: From address that will be in header
-* `keepalived_global_defs_smtp_server` [default: `'127.0.0.1'`]: SMTP server IP address
-* `keepalived_global_defs_smtp_connect_timeout` [default: `30`]: SMTP server connect timeout in seconds
+* `keepalived_global_defs_notification_email`: [default: `['root@localhost.localdomain']`]: Email addresses to send alerts to
+* `keepalived_global_defs_notification_email_from`: [default: `'root@localhost.localdomain'`]: From address that will be in header
+* `keepalived_global_defs_smtp_server`: [default: `'127.0.0.1'`]: SMTP server IP address
+* `keepalived_global_defs_smtp_connect_timeout`: [default: `30`]: SMTP server connect timeout in seconds
+* `keepalived_global_defs_script_user`: [optional]: Specify the default user / group to run scripts under (e.g. `'nobody nogroup'`). If group is not specified, the group of the user is used. If this option is not specified, the user defaults to `keepalived_script`. If that user exists, otherwise `root`
+* `keepalived_global_defs_enable_script_security`: [optional]: Don't run scripts configured to be run as `root` if any part of the path is writable by a `non-root` user
 
-* `keepalived_vrrp_script_map` [default: `{}`]: Script declarations
+* `keepalived_vrrp_script_map`: [default: `{}`]: Script declarations
 * `keepalived_vrrp_script_map.key`: [required]: The identifier of the file (e.g. `check-haproxy`)
 * `keepalived_vrrp_script_map.key.src`: [required]: The local path of the file to copy, can be absolute or relative (e.g. `../../../files/keepalived/usr/local/bin/check-haproxy`)
 * `keepalived_vrrp_script_map.key.dest`: [required]: The remote path of the file to copy (e.g. `/usr/local/bin/check-haproxy`)
@@ -38,13 +40,13 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_script_map.key.group`: [optional, default `root`]:The name of the group that should own the file
 * `keepalived_vrrp_script_map.key.mode`: [optional, default `0750`]: The mode of the file
 
-* `keepalived_vrrp_scripts` [default: `{}`]: VRRP script declarations
+* `keepalived_vrrp_scripts`: [default: `{}`]: VRRP script declarations
 * `keepalived_vrrp_scripts.key`: The name of the VRRP script
 * `keepalived_vrrp_scripts.key.script`: The script to run periodically
 * `keepalived_vrrp_scripts.key.weight`: The check weight to adjust the priority (optional)
 * `keepalived_vrrp_scripts.key.interval`: The check interval in seconds (optional)
 
-* `keepalived_vrrp_instances` [default: `{}`]: VRRP instance declarations
+* `keepalived_vrrp_instances`: [default: `{}`]: VRRP instance declarations
 * `keepalived_vrrp_instances.key`: The name of the VRRP instance
 * `keepalived_vrrp_instances.key.interface`: Interface bound by VRRP
 * `keepalived_vrrp_instances.key.state`: Start-up default state (`MASTER|BACKUP`). As soon as the other machine(s) come up, an election will be held and the machine with the highest `priority` will become `MASTER`

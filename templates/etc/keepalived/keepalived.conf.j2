@@ -9,6 +9,13 @@ global_defs {
   notification_email_from {{ keepalived_global_defs_notification_email_from }}
   smtp_server {{ keepalived_global_defs_smtp_server }}
   smtp_connect_timeout {{ keepalived_global_defs_smtp_connect_timeout }}
+
+{% if keepalived_global_defs_script_user is defined %}
+  script_user {{ keepalived_global_defs_script_user }}
+{% endif %}
+{% if keepalived_global_defs_enable_script_security is defined and keepalived_global_defs_enable_script_security | bool %}
+  enable_script_security
+{% endif %}
 }
 
 {% for key, value in keepalived_vrrp_scripts.iteritems() %}
@@ -19,6 +26,9 @@ vrrp_script {{ key }} {
 {% endif %}
 {% if value.interval is defined and value.interval | int %}
   interval {{ value.interval }}
+{% endif %}
+{% if value.user is defined %}
+  user {{ value.user }}
 {% endif %}
 }
 {% endfor %}
