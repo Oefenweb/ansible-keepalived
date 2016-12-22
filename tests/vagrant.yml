@@ -6,6 +6,10 @@
   roles:
     - ../../
   vars:
+    keepalived_create_keepalived_script_user: true
+#    keepalived_global_defs_script_user: 'nobody nogroup'
+    keepalived_global_defs_script_user: keepalived_script
+    keepalived_global_defs_enable_script_security: true
 #    keepalived_install:
 #      - libnl-3-dev
 #      - libnl-genl-3-dev
@@ -20,16 +24,20 @@
 
     keepalived_options:
       - name: log-detail
+#      - name: log-facility
+#        value: 7
 #    keepalived_vrrp_script_map:
 #      keepalived-notify:
 #        src: ../../../files/keepalived/usr/local/bin/keepalived-notify
 #        dest: /usr/local/bin/keepalived-notify
+#        group: "{{ keepalived_global_defs_script_user }}"
 
     keepalived_vrrp_scripts:
-      chk_haproxy:
-        script: 'killall -0 haproxy'
+      chk_sshd:
+        script: '/bin/pidof sshd'
         weight: 2
         interval: 1
+#        user: "{{ keepalived_global_defs_script_user }}"
 
     keepalived_vrrp_instances:
       VI_1:
@@ -46,6 +54,7 @@
           - '10.0.0.10/24 dev eth1 label eth1:1'
 
         track_scripts:
-          - chk_haproxy
+          - chk_sshd
 
 #        notify: "{{ keepalived_vrrp_script_map['keepalived-notify']['dest'] }}"
+#        notify_user: root

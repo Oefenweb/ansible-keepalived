@@ -7,6 +7,8 @@ keepalived_options: []
 
 keepalived_ip_nonlocal_bind: 1
 
+keepalived_create_keepalived_script_user: false
+
 keepalived_global_defs_notification_email:
   - 'root@localhost.localdomain'
 keepalived_global_defs_notification_email_from: 'root@localhost.localdomain'
