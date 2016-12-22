@@ -108,6 +108,20 @@
     - keepalived
     - keepalived-install
 
+- name: add script user
+  user:
+    name: keepalived_script
+    comment: 'keepalived script'
+    home: /nonexistent
+    shell: /bin/false
+    system: yes
+  when: keepalived_create_keepalived_script_user
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-script
+    - keepalived-script-user
+
 - name: cleanup build
   shell: git reset --hard && git clean -d -x -f
   args:
