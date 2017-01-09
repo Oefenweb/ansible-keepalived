@@ -57,7 +57,7 @@
     dest: "{{ keepalived_checkout_path }}"
     version: "{{ keepalived_version }}"
     force: true
-  register: git_checkout
+  register: _git_checkout
   tags:
     - configuration
     - keepalived
@@ -68,7 +68,7 @@
   shell: aclocal && autoheader && automake --add-missing && autoreconf
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: git_checkout | changed and keepalived_version | version_compare('v1.2.24', '>=')
+  when: _git_checkout | changed and keepalived_version | version_compare('v1.2.24', '>=')
   tags:
     - configuration
     - keepalived
@@ -79,7 +79,7 @@
   shell: ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_processor_cores + 1 }}
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: git_checkout | changed
+  when: _git_checkout | changed
   tags:
     - configuration
     - keepalived
@@ -101,7 +101,7 @@
   shell: make install
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: git_checkout | changed
+  when: _git_checkout | changed
   notify: restart keepalived
   tags:
     - configuration
@@ -126,7 +126,7 @@
   shell: git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: git_checkout | changed
+  when: _git_checkout | changed
   tags:
     - configuration
     - keepalived
@@ -136,7 +136,7 @@
 - name: stat directories
   stat:
     path: "{{ item }}/"
-  register: stat_directories
+  register: _stat_directories
   with_items:
     - "{{ keepalived_configuration_file | dirname }}"
   tags:
@@ -152,7 +152,7 @@
     owner: root
     group: root
     mode: 0755
-  with_items: "{{ stat_directories.results }}"
+  with_items: "{{ _stat_directories.results }}"
   when: item.stat.exists == false
   tags:
     - configuration
@@ -187,18 +187,21 @@
     - keepalived
     - keepalived-scripts
 
-- name: create init script
-  template:
-    src: "{{ keepalived_init_script.lstrip('/') }}.j2"
-    dest: "{{ keepalived_init_script }}"
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart keepalived
+- include: service-upstart.yml
+  when: ansible_distribution_version | version_compare('15.04', '<')
   tags:
     - configuration
     - keepalived
-    - keepalived-service-init
+    - keepalived-service
+    - keepalived-service-upstart
+
+- include: service-systemd.yml
+  when: ansible_distribution_version | version_compare('15.04', '>=')
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-service
+    - keepalived-service-systemd
 
 - name: start and enable service
   service:

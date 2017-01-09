@@ -1,0 +1,19 @@
+# tasks file for keepalived
+---
+- name: service | systemd | update script
+  template:
+    src: lib/systemd/system/keepalived.j2
+    dest: /lib/systemd/system/keepalived.service
+    owner: root
+    group: root
+    mode: 0644
+  register: _update_systemd_script
+  notify: restart keepalived
+  tags:
+    - keepalived-service-systemd-update
+
+- name: service | systemd | reload
+  command: systemctl daemon-reload
+  when: _update_systemd_script | changed
+  tags:
+    - keepalived-service-systemd-reload
