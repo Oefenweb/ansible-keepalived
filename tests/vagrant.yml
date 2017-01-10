@@ -6,6 +6,8 @@
   roles:
     - ../../
   vars:
+    _keepalived_second_interface: "{{ hostvars[inventory_hostname]['ansible_' + (ansible_interfaces | difference(['lo', ansible_default_ipv4['interface']]) | sort | list | first)]['device'] }}"
+
     keepalived_create_keepalived_script_user: true
 #    keepalived_global_defs_script_user: 'nobody nogroup'
     keepalived_global_defs_script_user: keepalived_script
@@ -41,7 +43,7 @@
 
     keepalived_vrrp_instances:
       VI_1:
-        interface: eth1
+        interface: "{{ _keepalived_second_interface }}"
         state: MASTER
         priority: 101
         virtual_router_id: 51
@@ -51,7 +53,7 @@
           auth_pass: '4Apr3C*d'
 
         virtual_ipaddresses:
-          - '10.0.0.10/24 dev eth1 label eth1:1'
+          - "10.0.0.10/24 dev {{ _keepalived_second_interface }} label {{ _keepalived_second_interface }}:1"
 
         track_scripts:
           - chk_sshd

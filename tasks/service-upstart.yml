@@ -1,0 +1,12 @@
+# tasks file for keepalived
+---
+- name: service | upstart | update script
+  template:
+    src: etc/init/keepalived.conf.j2
+    dest: /etc/init/keepalived.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart keepalived
+  tags:
+    - keepalived-service-upstart-update
