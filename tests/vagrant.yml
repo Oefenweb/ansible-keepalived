@@ -6,7 +6,7 @@
   roles:
     - ../../
   vars:
-    _keepalived_second_interface: "{{ hostvars[inventory_hostname]['ansible_' + (ansible_interfaces | difference(['lo']) | sort | list | last)]['device'] }}"
+    _keepalived_second_interface: "{{ hostvars[inventory_hostname]['ansible_' + (ansible_interfaces | difference(['lo', ansible_default_ipv4['interface']]) | sort | list | first)]['device'] }}"
 
     keepalived_create_keepalived_script_user: true
 #    keepalived_global_defs_script_user: 'nobody nogroup'
