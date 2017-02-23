@@ -70,6 +70,12 @@ vrrp_instance {{ key }} {
     {{ track_script }}
 {% endfor %}
   }
+  
+{% if value.unicast_peer is defined %}
+  unicast_peer {
+    {{ value.unicast_peer }}
+  }
+{% endif %}
 
 {% if value.notify is defined %}
   notify "{{ value.notify }}" {{ value.notify_user | default('') }}
