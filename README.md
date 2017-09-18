@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/tersmitten/keepalived)
 
-Set up the latest or a specific version of [Keepalived](http://www.keepalived.org/) in Ubuntu systems.
+Set up the latest or a specific version of [Keepalived](http://www.keepalived.org/) in Debian-like systems.
 
 #### Requirements
 
