@@ -12,6 +12,10 @@ galaxy_info:
         - precise
         - trusty
         - xenial
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
   galaxy_tags:
     - system
     - networking
