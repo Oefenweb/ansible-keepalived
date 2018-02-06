@@ -4,6 +4,7 @@ keepalived_dependencies:
   - git-core
   - build-essential
   - automake
+  - libtool
   - pkg-config
   - libssl-dev
 

@@ -6,15 +6,16 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 
 #### Requirements
 
-- `git-core` (will be installed)
-- `build-essential` (will be installed)
-- `automake` (will be installed)
-- `pkg-config` (will be installed)
-- `libssl-dev` (will be installed)
+* `git-core` (will be installed)
+* `build-essential` (will be installed)
+* `automake` (will be installed)
+* `libtool` (will be installed)
+* `pkg-config` (will be installed)
+* `libssl-dev` (will be installed)
 
 #### Variables
 
-* `keepalived_version`: [default: `v1.4.0`]: Keepalived version to install
+* `keepalived_version`: [default: `v1.4.1`]: Keepalived version to install
 
 * `keepalived_install`: [default: `[]`]: Additional packages to install (e.g. `['libnl-3-dev', 'libnl-genl-3-dev', 'libnl-route-3-dev', 'libnfnetlink-dev']`)
 * `keepalived_configure_options`: [default: `[]`]: Options to pass to `./configure`
