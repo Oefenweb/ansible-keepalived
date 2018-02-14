@@ -27,6 +27,15 @@ vrrp_script {{ key }} {
 {% if value.interval is defined and value.interval | int %}
   interval {{ value.interval }}
 {% endif %}
+{% if value.timeout is defined and value.timeout | int %}
+  timeout {{ value.timeout }}
+{% endif %}
+{% if value.rise is defined and value.rise | int %}
+  rise {{ value.rise }}
+{% endif %}
+{% if value.fall is defined and value.fall | int %}
+  fall {{ value.fall }}
+{% endif %}
 {% if value.user is defined %}
   user {{ value.user }}
 {% endif %}
