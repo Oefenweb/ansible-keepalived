@@ -48,6 +48,9 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_scripts.key.script`: The script to run periodically
 * `keepalived_vrrp_scripts.key.weight`: [optional]: The check weight to adjust the priority
 * `keepalived_vrrp_scripts.key.interval`: [optional]: The check interval in seconds
+* `keepalived_vrrp_scripts.key.timeout`: [optional]: Seconds after which script is considered to have failed
+* `keepalived_vrrp_scripts.key.rise`: [optional]: Required number of successes for OK transition
+* `keepalived_vrrp_scripts.key.fall`: [optional]: Required number of successes for KO transition
 
 * `keepalived_vrrp_instances`: [default: `{}`]: VRRP instance declarations
 * `keepalived_vrrp_instances.key`: The name of the VRRP instance
