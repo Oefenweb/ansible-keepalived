@@ -1,6 +1,6 @@
 # defaults file for keepalived
 ---
-keepalived_version: v1.4.2
+keepalived_version: v1.4.3
 keepalived_install: []
 keepalived_configure_options: []
 keepalived_options: []
