@@ -2,8 +2,8 @@
 ---
 - name: service | systemd | update script
   template:
-    src: lib/systemd/system/keepalived.j2
-    dest: /lib/systemd/system/keepalived.service
+    src: etc/systemd/system/keepalived.j2
+    dest: /etc/systemd/system/keepalived.service
     owner: root
     group: root
     mode: 0644
