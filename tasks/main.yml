@@ -68,7 +68,7 @@
   shell: aclocal && autoheader && automake --add-missing && autoreconf
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: _git_checkout | changed and keepalived_version | version_compare('v1.2.24', '>=')
+  when: _git_checkout is changed and keepalived_version is version_compare('v1.2.24', '>=')
   tags:
     - configuration
     - keepalived
@@ -79,7 +79,7 @@
   shell: ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_processor_cores + 1 }}
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: _git_checkout | changed
+  when: _git_checkout is changed
   tags:
     - configuration
     - keepalived
@@ -101,7 +101,7 @@
   shell: make install
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: _git_checkout | changed
+  when: _git_checkout is changed
   notify: restart keepalived
   tags:
     - configuration
@@ -126,7 +126,7 @@
   shell: git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: _git_checkout | changed
+  when: _git_checkout is changed
   tags:
     - configuration
     - keepalived

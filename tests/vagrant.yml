@@ -41,7 +41,7 @@
         interval: 1
         timeout: 2
         rise: 3
-        fall: 3        
+        fall: 3
 #        user: "{{ keepalived_global_defs_script_user }}"
 
     keepalived_vrrp_instances:
