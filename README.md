@@ -6,7 +6,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 
 #### Requirements
 
-* `git-core` (will be installed)
+* `git` (will be installed)
 * `build-essential` (will be installed)
 * `automake` (will be installed)
 * `libtool` (will be installed)

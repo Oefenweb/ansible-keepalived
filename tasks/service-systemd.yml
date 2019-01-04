@@ -13,7 +13,8 @@
     - keepalived-service-systemd-update
 
 - name: service | systemd | reload
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: true
   when: _update_systemd_script is changed
   tags:
     - keepalived-service-systemd-reload

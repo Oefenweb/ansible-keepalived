@@ -1,6 +1,7 @@
 # meta file for keepalived
 ---
 galaxy_info:
+  role_name: keepalived
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.
   description: Set up keepalived in Debian-like systems

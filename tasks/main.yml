@@ -6,7 +6,7 @@
     value: "{{ keepalived_ip_nonlocal_bind }}"
     reload: true
     state: present
-  when: keepalived_ip_nonlocal_bind != false
+  when: keepalived_ip_nonlocal_bind
   tags:
     - configuration
     - keepalived
@@ -14,11 +14,10 @@
 
 - name: install dependencies
   apt:
-    name: "{{ item }}"
+    name: "{{ keepalived_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: "{{ keepalived_dependencies }}"
   tags:
     - configuration
     - keepalived
@@ -27,11 +26,10 @@
 
 - name: install additional
   apt:
-    name: "{{ item }}"
+    name: "{{ keepalived_install }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: "{{ keepalived_install }}"
   tags:
     - configuration
     - keepalived
@@ -65,10 +63,13 @@
     - keepalived-checkout-repository
 
 - name: regenerate the build files
-  shell: aclocal && autoheader && automake --add-missing && autoreconf
+  shell: >
+    aclocal && autoheader && automake --add-missing && autoreconf
   args:
     chdir: "{{ keepalived_checkout_path }}"
-  when: _git_checkout is changed and keepalived_version is version_compare('v1.2.24', '>=')
+  when:
+    - _git_checkout is changed
+    - keepalived_version is version_compare('v1.2.24', '>=')
   tags:
     - configuration
     - keepalived
@@ -76,7 +77,8 @@
     - keepalived-build-regenerate-build-files
 
 - name: build
-  shell: ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_processor_cores + 1 }}
+  shell: >
+    ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_processor_cores + 1 }}
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: _git_checkout is changed
@@ -98,7 +100,8 @@
     - keepalived-remove-distro
 
 - name: install
-  shell: make install
+  shell: >
+    make install
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: _git_checkout is changed
@@ -123,7 +126,8 @@
     - keepalived-script-user
 
 - name: cleanup build
-  shell: git reset --hard && git clean -d -x -f
+  shell: >
+    git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: _git_checkout is changed
@@ -153,7 +157,7 @@
     group: root
     mode: 0755
   with_items: "{{ _stat_directories.results }}"
-  when: item.stat.exists == false
+  when: not item.stat.exists
   tags:
     - configuration
     - keepalived
