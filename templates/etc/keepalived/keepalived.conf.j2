@@ -56,10 +56,12 @@ vrrp_instance {{ key }} {
   smtp_alert
 {% endif %}
 
+{% if value.authentication is defined %}
   authentication {
     auth_type {{ value.authentication.auth_type }}
     auth_pass {{ value.authentication.auth_pass }}
   }
+{% endif %}
 
   virtual_ipaddress {
 {% for virtual_ipaddress in value.virtual_ipaddresses %}
