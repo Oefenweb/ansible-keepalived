@@ -121,6 +121,14 @@ vrrp_instance {{ key }} {
 {% endfor %}
   }
 
+{% if keepalived_static_routes is defined %}
+static_routes {
+{% for static_route in keepalived_static_routes %}
+  {{ static_route }}
+{% endfor %}
+}
+{% endif %}
+
 {% if value.virtual_routes is defined %}
   virtual_routes {
 {% for virtual_route in value.virtual_routes | default([]) %}
