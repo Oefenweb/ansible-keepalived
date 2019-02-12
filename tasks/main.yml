@@ -51,7 +51,7 @@
 
 - name: checkout repository
   git:
-    repo: https://github.com/acassen/keepalived.git
+    repo: "{{ keepalived_git_repo }}"
     dest: "{{ keepalived_checkout_path }}"
     version: "{{ keepalived_version }}"
     force: true
