@@ -61,7 +61,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.virtual_router_id`: Arbitrary unique number (`0...255`) used to differentiate multiple instances of VRRPD running on the same NIC (and hence same socket)
 * `keepalived_vrrp_instances.key.advert_int`: [optional]: The advert interval in seconds
 * `keepalived_vrrp_instances.key.smtp_alert`: [optional]: Whether or not to send email notifications during state transitioning-
-* `keepalived_vrrp_instances.key.authentication`: Authentication block
+* `keepalived_vrrp_instances.key.authentication`: [optional]: Authentication block
 * `keepalived_vrrp_instances.key.authentication.auth_type`: Simple password or IPSEC AH (`PASS|AH`)
 * `keepalived_vrrp_instances.key.authentication.auth_pass`: Password string (up to 8 characters)
 * `keepalived_vrrp_instances.key.virtual_ipaddresses`: VRRP IP address block
