@@ -1,6 +1,7 @@
 ## keepalived
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/Oefenweb/keepalived)
+[![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/Oefenweb/keepalived)
 
 Set up the latest or a specific version of [Keepalived](http://www.keepalived.org/) in Debian-like systems.
 
@@ -79,6 +80,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.notify_master`: [optional]: Scripts that is invoked when a server changes state (to `MASTER`)
 * `keepalived_vrrp_instances.key.notify_master_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`)
 * `keepalived_vrrp_instances.key.unicast_peer`: [optional]: IP address of aired unicast address (if you don't want to use multicast)
+
 #### Dependencies
 
 None

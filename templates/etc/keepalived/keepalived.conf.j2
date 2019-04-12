@@ -69,14 +69,14 @@ vrrp_instance {{ key }} {
 {% endfor %}
   }
 
-{% if value.virtual_ipaddresses_excluded | d([]) | length %}
+{% if value.virtual_ipaddresses_excluded is defined %}
   virtual_ipaddress_excluded {
-{% for virtual_ipaddress in value.virtual_ipaddresses_excluded %}
+{% for virtual_ipaddress in value.virtual_ipaddresses_excluded | default([]) %}
     {{ virtual_ipaddress }}
 {% endfor %}
   }
-
 {% endif %}
+
 {% if value.nopreempt is defined and value.nopreempt | bool %}
   nopreempt
 {% endif %}
@@ -89,7 +89,7 @@ vrrp_instance {{ key }} {
     {{ track_script }}
 {% endfor %}
   }
-  
+
 {% if value.unicast_peer is defined %}
   unicast_peer {
     {{ value.unicast_peer }}

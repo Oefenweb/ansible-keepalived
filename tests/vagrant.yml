@@ -57,6 +57,9 @@
 
         virtual_ipaddresses:
           - "10.0.0.10/24 dev {{ _keepalived_second_interface }} label {{ _keepalived_second_interface }}:1"
+        virtual_ipaddresses_excluded:
+          - "10.0.0.11/24 dev {{ _keepalived_second_interface }} label {{ _keepalived_second_interface }}:2"
+          - "10.0.0.12/24 dev {{ _keepalived_second_interface }} label {{ _keepalived_second_interface }}:3"
 
         track_scripts:
           - chk_sshd
