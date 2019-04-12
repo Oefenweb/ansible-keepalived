@@ -69,6 +69,14 @@ vrrp_instance {{ key }} {
 {% endfor %}
   }
 
+{% if value.virtual_ipaddresses_excluded | d([]) | length %}
+  virtual_ipaddress_excluded {
+{% for virtual_ipaddress in value.virtual_ipaddresses_excluded %}
+    {{ virtual_ipaddress }}
+{% endfor %}
+  }
+
+{% endif %}
 {% if value.nopreempt is defined and value.nopreempt | bool %}
   nopreempt
 {% endif %}
