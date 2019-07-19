@@ -6,7 +6,7 @@
     value: "{{ keepalived_ip_nonlocal_bind }}"
     reload: true
     state: present
-  when: keepalived_ip_nonlocal_bind
+  when: keepalived_ip_nonlocal_bind | bool
   tags:
     - configuration
     - keepalived
@@ -118,7 +118,7 @@
     home: /nonexistent
     shell: /bin/false
     system: yes
-  when: keepalived_create_keepalived_script_user
+  when: keepalived_create_keepalived_script_user | bool
   tags:
     - configuration
     - keepalived
