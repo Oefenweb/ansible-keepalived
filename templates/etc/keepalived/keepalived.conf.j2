@@ -64,14 +64,14 @@ vrrp_instance {{ key }} {
 {% endif %}
 
   virtual_ipaddress {
-{% for virtual_ipaddress in value.virtual_ipaddresses %}
+{% for virtual_ipaddress in value.virtual_ipaddresses | sort %}
     {{ virtual_ipaddress }}
 {% endfor %}
   }
 
 {% if value.virtual_ipaddresses_excluded is defined %}
   virtual_ipaddress_excluded {
-{% for virtual_ipaddress in value.virtual_ipaddresses_excluded | default([]) %}
+{% for virtual_ipaddress in value.virtual_ipaddresses_excluded | default([]) | sort %}
     {{ virtual_ipaddress }}
 {% endfor %}
   }
