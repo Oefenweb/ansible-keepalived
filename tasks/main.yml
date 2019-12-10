@@ -69,7 +69,7 @@
     chdir: "{{ keepalived_checkout_path }}"
   when:
     - _git_checkout is changed
-    - keepalived_version is version_compare('v1.2.24', '>=')
+    - keepalived_version is version('v1.2.24', '>=')
   tags:
     - configuration
     - keepalived
