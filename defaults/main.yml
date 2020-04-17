@@ -6,7 +6,7 @@ keepalived_install: []
 keepalived_configure_options: []
 keepalived_options: []
 
-keepalived_ip_nonlocal_bind: 1
+keepalived_ip_nonlocal_bind: '1'
 
 keepalived_create_keepalived_script_user: false
 
