@@ -16,6 +16,9 @@ global_defs {
 {% if keepalived_global_defs_enable_script_security is defined and keepalived_global_defs_enable_script_security | bool %}
   enable_script_security
 {% endif %}
+{% for global_def_raw in keepalived_global_defs_raw | default([]) %}
+  {{ global_def_raw }}
+{% endfor %}
 }
 
 {% for key, value in keepalived_vrrp_scripts.items() %}
@@ -108,5 +111,8 @@ vrrp_instance {{ key }} {
 {% if value.notify_master is defined %}
   notify_master "{{ value.notify_master }}" {{ value.notify_master_user | default('') }}
 {% endif %}
+{% for raw_option in value.raw_options | default([]) %}
+  {{ raw_option }}
+{% endfor %}
 }
 {% endfor %}

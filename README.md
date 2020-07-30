@@ -36,6 +36,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_global_defs_smtp_connect_timeout`: [default: `30`]: SMTP server connect timeout in seconds
 * `keepalived_global_defs_script_user`: [optional]: Specify the default user / group to run scripts under. If group is not specified, the group of the user is used. If this option is not specified, the user defaults to `keepalived_script`. If that user exists, otherwise `root` (since `1.3.0`, e.g. `'nobody nogroup'`, )
 * `keepalived_global_defs_enable_script_security`: [optional]: Don't run scripts configured to be run as `root` if any part of the path is writable by a `non-root` user (since `1.3.0`, e.g. `true`)
+* `keepalived_global_defs_raw`: [optional]: An optional list of raw parameters to add to the `global_defs` config section
 
 * `keepalived_vrrp_script_map`: [default: `{}`]: Script declarations
 * `keepalived_vrrp_script_map.key`: [required]: The identifier of the file (e.g. `check-haproxy`)
@@ -80,6 +81,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.notify_master`: [optional]: Scripts that is invoked when a server changes state (to `MASTER`)
 * `keepalived_vrrp_instances.key.notify_master_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`)
 * `keepalived_vrrp_instances.key.unicast_peer`: [optional]: IP address of aired unicast address (if you don't want to use multicast)
+* `keepalived_vrrp_instances.key.raw_options`: [optional]: An optional list of raw parameters to add to the vrrp instance
 
 #### Dependencies
 
@@ -117,6 +119,9 @@ None
 
         track_scripts:
           - chk_haproxy
+
+        raw_options:
+          - dont_track_primary
 ```
 
 #### License
