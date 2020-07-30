@@ -70,7 +70,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.virtual_ipaddresses_excluded`: IP address block, which is not included in the VRRP packet itself, in order to support more than 20 ips
 * `keepalived_vrrp_instances.key.nopreempt`: [optional]: VRRP will normally preempt a lower priority machine when a higher priority machine comes online. This option allows the lower priority machine to maintain the master role, even when a higher priority machine comes back online. **NOTE:** For this to work, the initial state of this entry must be `BACKUP`
 * `keepalived_vrrp_instances.key.preempt_delay`: [optional]: Seconds after startup until preemption (if not disabled by `nopreempt`). Range: 0 (default) to 1000 **NOTE:** For this to work, the initial state of this entry must be BACKUP
-* `keepalived_vrrp_instances.key.track_scripts`: Scripts state we monitor
+* `keepalived_vrrp_instances.key.track_scripts`: [optional]: Scripts state we monitor
 
 * `keepalived_vrrp_instances.key.notify`: [optional]: Scripts that is invoked when a server changes state
 * `keepalived_vrrp_instances.key.notify_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`, e.g. `'nobody nogroup'`)

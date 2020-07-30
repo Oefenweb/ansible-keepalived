@@ -87,11 +87,13 @@ vrrp_instance {{ key }} {
   preempt_delay {{ value.preempt_delay }}
 {% endif %}
 
+{% if value.track_scripts is defined %}
   track_script {
 {% for track_script in value.track_scripts %}
     {{ track_script }}
 {% endfor %}
   }
+{% endif %}
 
 {% if value.unicast_peer is defined %}
   unicast_peer {
