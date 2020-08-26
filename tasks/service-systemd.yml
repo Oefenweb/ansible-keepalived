@@ -2,8 +2,8 @@
 ---
 - name: service | systemd | update script
   template:
-    src: etc/systemd/system/keepalived.j2
-    dest: /etc/systemd/system/keepalived.service
+    src: "{{ keepalived_etc_systemd_file.lstrip('/') }}.j2"
+    dest: "{{ keepalived_etc_systemd_file }}"
     owner: root
     group: root
     mode: 0644

@@ -2,8 +2,8 @@
 ---
 - name: service | upstart | update script
   template:
-    src: etc/init/keepalived.conf.j2
-    dest: /etc/init/keepalived.conf
+    src: "{{ keepalived_etc_init_file.lstrip('/') }}.j2"
+    dest: "{{ keepalived_etc_init_file }}"
     owner: root
     group: root
     mode: 0644

@@ -11,3 +11,6 @@ keepalived_dependencies:
 keepalived_checkout_path: /var/lib/ansible/keepalived/checkouts/keepalived
 
 keepalived_configuration_file: /etc/keepalived/keepalived.conf
+
+keepalived_etc_systemd_file: /etc/systemd/system/keepalived.service
+keepalived_etc_init_file: /etc/init/keepalived.conf

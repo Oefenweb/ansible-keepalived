@@ -3,7 +3,7 @@
 - name: allow binding non-local IP
   sysctl:
     name: net.ipv4.ip_nonlocal_bind
-    value: "{{ keepalived_ip_nonlocal_bind }}"
+    value: "{{ keepalived_ip_nonlocal_bind | string }}"
     reload: true
     state: present
   when: keepalived_ip_nonlocal_bind | bool
