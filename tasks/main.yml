@@ -70,6 +70,21 @@
   when:
     - _git_checkout is changed
     - keepalived_version is version('v1.2.24', '>=')
+    - keepalived_version is version('v2.1.0', '<')
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-build
+    - keepalived-build-regenerate-build-files
+
+- name: regenerate the build files
+  shell: >
+    ./build_setup
+  args:
+    chdir: "{{ keepalived_checkout_path }}"
+  when:
+    - _git_checkout is changed
+    - keepalived_version is version('v2.1.0', '>=')
   tags:
     - configuration
     - keepalived
