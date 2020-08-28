@@ -86,7 +86,13 @@ vrrp_instance {{ key }} {
 {% if value.preempt_delay is defined %}
   preempt_delay {{ value.preempt_delay }}
 {% endif %}
-
+{% if value.track_interfaces is defined %}
+  track_interface {
+{% for track_interface in value.track_interfaces %}
+    {{ track_interface }}
+{% endfor %}
+  }
+{% endif %}
 {% if value.track_scripts is defined %}
   track_script {
 {% for track_script in value.track_scripts %}
