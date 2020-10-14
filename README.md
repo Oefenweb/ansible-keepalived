@@ -94,7 +94,8 @@ None
 ---
 - hosts: all
   roles:
-    - keepalived
+    - role: keepalived
+      become: yes
   vars:
     keepalived_options:
       - name: log-detail
