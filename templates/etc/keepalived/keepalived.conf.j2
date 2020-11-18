@@ -21,7 +21,7 @@ global_defs {
 {% endfor %}
 }
 
-{% for key, value in keepalived_vrrp_scripts.items() %}
+{% for key, value in keepalived_vrrp_scripts.items() | sort %}
 vrrp_script {{ key }} {
   script "{{ value.script }}"
 {% if value.weight is defined %}
@@ -45,7 +45,7 @@ vrrp_script {{ key }} {
 }
 {% endfor %}
 
-{% for key, value in keepalived_vrrp_instances.items() %}
+{% for key, value in keepalived_vrrp_instances.items() | sort %}
 vrrp_instance {{ key }} {
   interface {{ value.interface }}
   state {{ value.state }}
