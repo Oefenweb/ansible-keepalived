@@ -1,6 +1,7 @@
-# meta file for keepalived
+# meta file
 ---
 galaxy_info:
+  namespace: oefenweb
   role_name: keepalived
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.

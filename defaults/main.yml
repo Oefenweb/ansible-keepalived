@@ -1,4 +1,4 @@
-# defaults file for keepalived
+# defaults file
 ---
 keepalived_git_repo: https://github.com/acassen/keepalived.git
 keepalived_version: v2.1.5

@@ -1,4 +1,4 @@
-# tasks file for keepalived
+# tasks file
 ---
 - name: service | systemd | update script
   template:

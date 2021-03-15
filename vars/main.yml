@@ -1,4 +1,4 @@
-# vars file for keepalived
+# vars file
 ---
 keepalived_dependencies:
   - git

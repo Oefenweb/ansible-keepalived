@@ -1,4 +1,4 @@
-# tasks file for keepalived
+# tasks file
 ---
 - name: service | upstart | update script
   template:

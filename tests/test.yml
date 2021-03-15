@@ -1,4 +1,4 @@
-# test file for keepalived
+# test file
 ---
 - hosts: localhost
   connection: local

@@ -1,4 +1,4 @@
-# tasks file for keepalived
+# tasks file
 ---
 - name: allow binding non-local IP
   sysctl:
