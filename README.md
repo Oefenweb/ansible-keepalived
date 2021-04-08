@@ -1,6 +1,6 @@
 ## keepalived
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-keepalived.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-keepalived)
+[![CI](https://github.com/Oefenweb/ansible-haproxy/workflows/CI/badge.svg)](https://github.com/Oefenweb/ansible-keepalived/actions?query=workflow%3ACI)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-keepalived-blue.svg)](https://galaxy.ansible.com/Oefenweb/keepalived)
 
 Set up the latest or a specific version of [Keepalived](http://www.keepalived.org/) in Debian-like systems.
