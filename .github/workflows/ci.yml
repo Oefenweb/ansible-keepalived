@@ -42,6 +42,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - distro: debian8
+          - distro: debian9
+          - distro: debian10
           - distro: ubuntu1604
             ansible-version: '>=2.8, <2.9'
           - distro: ubuntu1604

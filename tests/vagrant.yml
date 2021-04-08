@@ -28,6 +28,7 @@
       - name: log-detail
       # - name: log-facility
       #   value: 7
+
     # keepalived_vrrp_script_map:
     #   keepalived-notify:
     #     src: ../../../files/keepalived/usr/local/bin/keepalived-notify
