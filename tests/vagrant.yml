@@ -9,30 +9,30 @@
     _keepalived_second_interface: "{{ hostvars[inventory_hostname]['ansible_' + (ansible_interfaces | difference(['lo', ansible_default_ipv4['interface']]) | sort | list | first)]['device'] }}"
 
     keepalived_create_keepalived_script_user: true
-#    keepalived_global_defs_script_user: 'nobody nogroup'
+    # keepalived_global_defs_script_user: 'nobody nogroup'
     keepalived_global_defs_script_user: keepalived_script
     keepalived_global_defs_enable_script_security: true
-#    keepalived_install:
-#      - libnl-3-dev
-#      - libnl-genl-3-dev
-#      - libnl-route-3-dev
-#      - libnfnetlink-dev
-#      - libipset-dev
-#      - libiptcdata0-dev
-#      - iptables-dev
-#
-#    keepalived_configure_options:
-#      - '--enable-sha1'
+    # keepalived_install:
+    #   - libnl-3-dev
+    #   - libnl-genl-3-dev
+    #   - libnl-route-3-dev
+    #   - libnfnetlink-dev
+    #   - libipset-dev
+    #   - libiptcdata0-dev
+    #   - iptables-dev
+    #
+    # keepalived_configure_options:
+    #   - '--enable-sha1'
 
     keepalived_options:
       - name: log-detail
-#      - name: log-facility
-#        value: 7
-#    keepalived_vrrp_script_map:
-#      keepalived-notify:
-#        src: ../../../files/keepalived/usr/local/bin/keepalived-notify
-#        dest: /usr/local/bin/keepalived-notify
-#        group: "{{ keepalived_global_defs_script_user }}"
+      # - name: log-facility
+      #   value: 7
+    # keepalived_vrrp_script_map:
+    #   keepalived-notify:
+    #     src: ../../../files/keepalived/usr/local/bin/keepalived-notify
+    #     dest: /usr/local/bin/keepalived-notify
+    #     group: "{{ keepalived_global_defs_script_user }}"
 
     keepalived_vrrp_scripts:
       chk_sshd:
@@ -42,7 +42,7 @@
         timeout: 2
         rise: 3
         fall: 3
-#        user: "{{ keepalived_global_defs_script_user }}"
+        # user: "{{ keepalived_global_defs_script_user }}"
 
     keepalived_vrrp_instances:
       VI_1:
@@ -64,5 +64,5 @@
         track_scripts:
           - chk_sshd
 
-#        notify: "{{ keepalived_vrrp_script_map['keepalived-notify']['dest'] }}"
-#        notify_user: root
+        # notify: "{{ keepalived_vrrp_script_map['keepalived-notify']['dest'] }}"
+        # notify_user: root
