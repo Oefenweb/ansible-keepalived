@@ -7,6 +7,7 @@ keepalived_dependencies:
   - libtool
   - pkg-config
   - libssl-dev
+  - procps
 
 keepalived_checkout_path: /var/lib/ansible/keepalived/checkouts/keepalived
 
