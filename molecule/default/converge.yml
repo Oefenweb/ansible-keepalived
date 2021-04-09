@@ -4,6 +4,6 @@
   become: true
   pre_tasks:
     - name: include vars
-      include_vars: "{{ playbook_dir }}/../../tests/vars/main.yml"
+      include_vars: "{{ playbook_dir }}/../../tests/vars/molecule.yml"
   roles:
     - ../../../

@@ -3,11 +3,8 @@
 - hosts: localhost
   connection: local
   become: true
+  pre_tasks:
+    - name: include vars
+      include_vars: "{{ playbook_dir }}/vars/test.yml"
   roles:
     - ../../
-  vars:
-    keepalived_options:
-      - name: log-detail
-
-    # Do not try to set net.ipv4.ip_nonlocal_bind, which fails on travis-ci
-    keepalived_ip_nonlocal_bind: false
