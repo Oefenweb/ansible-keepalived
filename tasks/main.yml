@@ -1,17 +1,5 @@
 # tasks file
 ---
-- name: allow binding non-local IP
-  sysctl:
-    name: net.ipv4.ip_nonlocal_bind
-    value: "{{ keepalived_ip_nonlocal_bind | string }}"
-    reload: true
-    state: present
-  when: keepalived_ip_nonlocal_bind | bool
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-ip-nonlocal-bind
-
 - name: install dependencies
   apt:
     name: "{{ keepalived_dependencies }}"
@@ -35,6 +23,18 @@
     - keepalived
     - keepalived-install
     - keepalived-install-additional
+
+- name: allow binding non-local IP
+  sysctl:
+    name: net.ipv4.ip_nonlocal_bind
+    value: "{{ keepalived_ip_nonlocal_bind | string }}"
+    reload: true
+    state: present
+  when: keepalived_ip_nonlocal_bind | bool
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-ip-nonlocal-bind
 
 - name: create (checkout) directory
   file:
