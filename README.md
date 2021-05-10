@@ -17,7 +17,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 #### Variables
 
 * `keepalived_git_repo`: [default: `https://github.com/acassen/keepalived.git`]: Keepalived git repo
-* `keepalived_version`: [default: `v2.1.5`]: Keepalived version to install
+* `keepalived_version`: [default: `v2.2.2`]: Keepalived version to install
 
 * `keepalived_install`: [default: `[]`]: Additional packages to install (e.g. `['libnl-3-dev', 'libnl-genl-3-dev', 'libnl-route-3-dev', 'libnfnetlink-dev']`)
 * `keepalived_configure_options`: [default: `[]`]: Options to pass to `./configure`

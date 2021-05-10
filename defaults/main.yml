@@ -1,7 +1,7 @@
 # defaults file
 ---
 keepalived_git_repo: https://github.com/acassen/keepalived.git
-keepalived_version: v2.1.5
+keepalived_version: v2.2.2
 keepalived_install: []
 keepalived_configure_options: []
 keepalived_options: []
