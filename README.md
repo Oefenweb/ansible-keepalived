@@ -55,6 +55,18 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_scripts.key.rise`: [optional]: Required number of successes for OK transition
 * `keepalived_vrrp_scripts.key.fall`: [optional]: Required number of successes for KO transition
 
+* `keepalived_vrrp_track_processes`: [default: `{}`]: VRRP process declarations
+* `keepalived_vrrp_track_processes.key`: The name of the VRRP script
+* `keepalived_vrrp_track_processes.key.process`: The process to monitor (with optional parameters)
+* `keepalived_vrrp_track_processes.key.param_match`: [optional]: If matching parameters, this specifies a `partial` match (i.e. the first n parameters match exactly), or an `initial` match, i.e. the last parameter may be longer that the parameter configured
+* `keepalived_vrrp_track_processes.key.weight`: [optional]: The check weight to adjust the priority
+* `keepalived_vrrp_track_processes.key.quorum`: [optional]: Minimum number of processes for success
+* `keepalived_vrrp_track_processes.key.quorum_max`: [optional]: Maximum number of processes for success
+* `keepalived_vrrp_track_processes.key.fork_delay`: [optional]: Time to delay after process quorum gained after fork before consider process up
+* `keepalived_vrrp_track_processes.key.terminate_delay`: [optional]: Time to delay after process quorum lost before consider process down
+* `keepalived_vrrp_track_processes.key.delay`: [optional]: This sets `fork_delay` and `terminate_delay`
+* `keepalived_vrrp_track_processes.key.full_command`: [optional]: Normally process string is matched against the process name, as shown on the `Name`: line in `/proc/PID/status`, unless parameters are specified
+
 * `keepalived_vrrp_instances`: [default: `{}`]: VRRP instance declarations
 * `keepalived_vrrp_instances.key`: The name of the VRRP instance
 * `keepalived_vrrp_instances.key.interface`: Interface bound by VRRP
@@ -72,6 +84,7 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `keepalived_vrrp_instances.key.preempt_delay`: [optional]: Seconds after startup until preemption (if not disabled by `nopreempt`). Range: 0 (default) to 1000 **NOTE:** For this to work, the initial state of this entry must be BACKUP
 * `keepalived_vrrp_instances.key.track_interfaces`: [optional]: Interface states we monitor
 * `keepalived_vrrp_instances.key.track_scripts`: [optional]: Scripts state we monitor
+* `keepalived_vrrp_instances.key.track_processes`: [optional]: Processes state we monitor
 
 * `keepalived_vrrp_instances.key.notify`: [optional]: Scripts that is invoked when a server changes state
 * `keepalived_vrrp_instances.key.notify_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`, e.g. `'nobody nogroup'`)
@@ -100,7 +113,7 @@ None
       - name: log-detail
     keepalived_vrrp_scripts:
       chk_haproxy:
-        script: '/bin/pidof haproxy'
+        script: '/usr/bin/pgrep haproxy'
         weight: 2
         interval: 1
 
