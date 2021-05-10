@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 global_defs {
   notification_email {
@@ -41,6 +41,36 @@ vrrp_script {{ key }} {
 {% endif %}
 {% if value.user is defined %}
   user {{ value.user }}
+{% endif %}
+}
+{% endfor %}
+
+{% for key, value in keepalived_vrrp_track_processes.items() | sort %}
+vrrp_track_process {{ key }} {
+  process {{ value.process }}
+{% if value.param_match is defined %}
+  param_match {{ value.param_match }}
+{% endif %}
+{% if value.weight is defined %}
+  weight {{ value.weight }}
+{% endif %}
+{% if value.quorum is defined %}
+  quorum {{ value.quorum }}
+{% endif %}
+{% if value.quorum_max is defined %}
+  quorum_max {{ value.quorum_max }}
+{% endif %}
+{% if value.fork_delay is defined %}
+  fork_delay {{ value.fork_delay }}
+{% endif %}
+{% if value.terminate_delay is defined %}
+  terminate_delay {{ value.terminate_delay }}
+{% endif %}
+{% if value.delay is defined %}
+  delay {{ value.delay }}
+{% endif %}
+{% if value.full_command is defined and value.full_command | bool %}
+  full_command
 {% endif %}
 }
 {% endfor %}
@@ -99,6 +129,14 @@ vrrp_instance {{ key }} {
   track_script {
 {% for track_script in value.track_scripts %}
     {{ track_script }}
+{% endfor %}
+  }
+{% endif %}
+
+{% if value.track_processes is defined %}
+  track_process {
+{% for track_process in value.track_processes %}
+    {{ track_process }}
 {% endfor %}
   }
 {% endif %}

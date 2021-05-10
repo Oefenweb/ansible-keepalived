@@ -31,7 +31,7 @@ keepalived_options:
 
 keepalived_vrrp_scripts:
   chk_sshd:
-    script: '/bin/pidof sshd'
+    script: '/usr/bin/pgrep haproxy'
     weight: 2
     interval: 1
     timeout: 2

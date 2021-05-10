@@ -1,7 +1,7 @@
 # defaults file
 ---
 keepalived_git_repo: https://github.com/acassen/keepalived.git
-keepalived_version: v2.1.5
+keepalived_version: v2.2.2
 keepalived_install: []
 keepalived_configure_options: []
 keepalived_options: []
@@ -19,5 +19,6 @@ keepalived_global_defs_smtp_connect_timeout: 30
 keepalived_vrrp_script_map: {}
 
 keepalived_vrrp_scripts: {}
+keepalived_vrrp_track_processes: {}
 
 keepalived_vrrp_instances: {}
