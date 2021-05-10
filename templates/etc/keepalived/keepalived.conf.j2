@@ -70,7 +70,7 @@ vrrp_track_process {{ key }} {
   delay {{ value.delay }}
 {% endif %}
 {% if value.full_command is defined and value.full_command | bool %}
-  full_command {{ value.full_command }}
+  full_command
 {% endif %}
 }
 {% endfor %}
