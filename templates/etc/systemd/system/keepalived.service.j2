@@ -4,6 +4,8 @@
 Description=Keepalived
 After=network-online.target
 Wants=network-online.target
+# Only start if there is a configuration file
+ConditionFileNotEmpty={{ keepalived_configuration_file }}
 
 [Service]
 Type=simple
