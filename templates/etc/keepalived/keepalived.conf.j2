@@ -141,9 +141,19 @@ vrrp_instance {{ key }} {
   }
 {% endif %}
 
+{% if value.vmac_xmit_base is defined and value.vmac_xmit_base | bool %}
+  vmac_xmit_base
+{% endif %}
+
+{% if value.unicast_src_ip is defined %}
+  unicast_src_ip {{ value.unicast_src_ip }}
+{% endif %}
+
 {% if value.unicast_peer is defined %}
   unicast_peer {
-    {{ value.unicast_peer }}
+{% for peer in value.unicast_peer %}
+    {{ peer }}
+{% endfor %}
   }
 {% endif %}
 
