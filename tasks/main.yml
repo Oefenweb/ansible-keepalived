@@ -1,5 +1,20 @@
 # tasks file
 ---
+- name: test if keepalived_vrrp_instances is set correctly
+  assert:
+    that:
+      - keepalived_vrrp_instances is defined
+      - keepalived_vrrp_instances is iterable
+    quiet: yes
+
+- name: Assert keepalived_vrrp_instances is a dictionary
+  assert:
+    that: ( keepalived_vrrp_instances is defined ) and ( keepalived_vrrp_instances | type_debug == "dict" )
+
+- name: Assert keepalived_vrrp_instances is a mapping
+  assert:
+    that: ( keepalived_vrrp_instances is defined ) and ( keepalived_vrrp_instances is mapping )
+
 - name: install dependencies
   apt:
     name: "{{ keepalived_dependencies }}"
