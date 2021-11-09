@@ -1,19 +1,11 @@
 # tasks file
 ---
-- name: test if keepalived_vrrp_instances is set correctly
+- name: Assert keepalived_vrrp_instances is set correctly
   assert:
     that:
       - keepalived_vrrp_instances is defined
       - keepalived_vrrp_instances is iterable
     quiet: yes
-
-- name: Assert keepalived_vrrp_instances is a dictionary
-  assert:
-    that: ( keepalived_vrrp_instances is defined ) and ( keepalived_vrrp_instances | type_debug == "dict" )
-
-- name: Assert keepalived_vrrp_instances is a mapping
-  assert:
-    that: ( keepalived_vrrp_instances is defined ) and ( keepalived_vrrp_instances is mapping )
 
 - name: install dependencies
   apt:
@@ -39,9 +31,21 @@
     - keepalived-install
     - keepalived-install-additional
 
-- name: allow binding non-local IP
+- name: allow binding non-local IPv4
   sysctl:
     name: net.ipv4.ip_nonlocal_bind
+    value: "{{ keepalived_ip_nonlocal_bind | string }}"
+    reload: true
+    state: present
+  when: keepalived_ip_nonlocal_bind | bool
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-ip-nonlocal-bind
+
+- name: allow binding non-local IPv6
+  sysctl:
+    name: net.ipv6.ip_nonlocal_bind
     value: "{{ keepalived_ip_nonlocal_bind | string }}"
     reload: true
     state: present
