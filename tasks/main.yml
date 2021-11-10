@@ -7,6 +7,15 @@
       - keepalived_vrrp_instances is iterable
     quiet: yes
 
+- name: Check if IPv6 is enabled
+  slurp:
+    src: /sys/module/ipv6/parameters/disable
+  register: _ipv6_disabled
+
+- name: Set ipv6_enabled fact
+  set_fact:
+    ipv6_enabled: "{{ not _ipv6_disabled.failed and '0' in (_ipv6_disabled.content | b64decode) }}"
+
 - name: install dependencies
   apt:
     name: "{{ keepalived_dependencies }}"
@@ -49,7 +58,7 @@
     value: "{{ keepalived_ip_nonlocal_bind | string }}"
     reload: true
     state: present
-  when: keepalived_ip_nonlocal_bind | bool
+  when: keepalived_ip_nonlocal_bind | bool and ipv6_enabled
   tags:
     - configuration
     - keepalived
