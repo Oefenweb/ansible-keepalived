@@ -149,11 +149,15 @@ vrrp_instance {{ key }} {
   unicast_src_ip {{ value.unicast_src_ip }}
 {% endif %}
 
-{% if value.unicast_peer is defined %}
+{% if value.unicast_peer is iterable and value.unicast_peer is not string %}
   unicast_peer {
 {% for peer in value.unicast_peer %}
     {{ peer }}
 {% endfor %}
+  }
+{% elif value.unicast_peer is defined %}
+  unicast_peer {
+    {{ value.unicast_peer }}
   }
 {% endif %}
 
