@@ -1,17 +1,5 @@
 # tasks file
 ---
-- name: install dependencies
-  apt:
-    name: "{{ keepalived_dependencies }}"
-    state: "{{ apt_install_state | default('latest') }}"
-    update_cache: true
-    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-install
-    - keepalived-install-dependencies
-
 - name: install additional
   apt:
     name: "{{ keepalived_install }}"
@@ -24,6 +12,25 @@
     - keepalived-install
     - keepalived-install-additional
 
+- name: Install for git
+  include: git.yml
+  when: keepalived_install_method == 'git'
+
+- name: Install from repo
+  apt:
+    name:
+      - keepalived
+      - procps
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  notify: restart keepalived
+  when: keepalived_install_method == 'native'
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-install
+
 - name: allow binding non-local IP
   sysctl:
     name: net.ipv4.ip_nonlocal_bind
@@ -35,15 +42,6 @@
     - configuration
     - keepalived
     - keepalived-ip-nonlocal-bind
-
-- name: Install for git
-  include: git.yml
-  when: keepalived_install_from == 'git'
-
-- name: Install from repo
-  apt:
-    name: keepalived
-  when: keepalived_install_from == 'repo'
 
 - name: stat directories
   stat:
