@@ -1,8 +1,3 @@
-{% if keepalived_install_from == 'git' %}
-{% set keepalived_path = '/usr/local/sbin/' %}
-{% else %}
-{% set keepalived_path = '/usr/sbin/' %}
-{% endif %}
 ; {{ ansible_managed }}
 
 [Unit]
@@ -12,7 +7,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart={{ keepalived_path }}keepalived --dont-fork{% for option in keepalived_options %} --{{ option.name }}{% if option.value is defined %}={{ option.value }}{% endif %}{% endfor %}
+ExecStart={{ keepalived_install_prefix }}keepalived --dont-fork{% for option in keepalived_options %} --{{ option.name }}{% if option.value is defined %}={{ option.value }}{% endif %}{% endfor %}
 
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
