@@ -23,6 +23,7 @@
     - keepalived
     - keepalived-install
     - keepalived-install-additional
+  when: keepalived_install | length>0
 
 - name: allow binding non-local IP
   sysctl:
