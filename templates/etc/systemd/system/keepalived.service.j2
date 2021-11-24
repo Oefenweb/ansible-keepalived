@@ -4,12 +4,11 @@
 Description=Keepalived
 After=network-online.target
 Wants=network-online.target
-# Only start if there is a configuration file
 ConditionFileNotEmpty={{ keepalived_configuration_file }}
 
 [Service]
 Type=simple
-ExecStart=/usr/local/sbin/keepalived --dont-fork{% for option in keepalived_options %} --{{ option.name }}{% if option.value is defined %}={{ option.value }}{% endif %}{% endfor %}
+ExecStart={{ keepalived_install_prefix }}/keepalived --dont-fork{% for option in keepalived_options %} --{{ option.name }}{% if option.value is defined %}={{ option.value }}{% endif %}{% endfor %}
 
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process

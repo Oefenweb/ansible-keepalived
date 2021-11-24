@@ -1,33 +1,5 @@
 # tasks file
 ---
-- name: Assert keepalived_vrrp_instances is set correctly
-  assert:
-    that:
-      - keepalived_vrrp_instances is defined
-      - keepalived_vrrp_instances is iterable
-    quiet: yes
-
-- name: Check if IPv6 is enabled
-  slurp:
-    src: /sys/module/ipv6/parameters/disable
-  register: _ipv6_disabled
-
-- name: Set ipv6_enabled fact
-  set_fact:
-    ipv6_enabled: "{{ not _ipv6_disabled.failed and '0' in (_ipv6_disabled.content | b64decode) }}"
-
-- name: install dependencies
-  apt:
-    name: "{{ keepalived_dependencies }}"
-    state: "{{ apt_install_state | default('latest') }}"
-    update_cache: true
-    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-install
-    - keepalived-install-dependencies
-
 - name: install additional
   apt:
     name: "{{ keepalived_install }}"
@@ -40,25 +12,53 @@
     - keepalived-install
     - keepalived-install-additional
 
-- name: allow binding non-local IPv4
-  sysctl:
-    name: net.ipv4.ip_nonlocal_bind
-    value: "{{ keepalived_ip_nonlocal_bind | string }}"
-    reload: true
-    state: present
-  when: keepalived_ip_nonlocal_bind | bool
+- name: install | git
+  include: git.yml
+  when: keepalived_install_method == 'git'
   tags:
     - configuration
     - keepalived
-    - keepalived-ip-nonlocal-bind
+    - keepalived-install
+    - keepalived-install-git
 
-- name: allow binding non-local IPv6
-  sysctl:
-    name: net.ipv6.ip_nonlocal_bind
-    value: "{{ keepalived_ip_nonlocal_bind | string }}"
-    reload: true
-    state: present
-  when: keepalived_ip_nonlocal_bind | bool and ipv6_enabled
+- name: install | native
+  include: native.yml
+  when: keepalived_install_method == 'native'
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-install
+    - keepalived-install-native
+
+- block:
+
+    - name: allow binding non-local IPv4
+      sysctl:
+        name: net.ipv4.ip_nonlocal_bind
+        value: "{{ keepalived_ip_nonlocal_bind | string }}"
+        reload: true
+        state: present
+      when: keepalived_ip_nonlocal_bind | bool
+
+    - name: check if IPv6 is enabled
+      slurp:
+        src: /sys/module/ipv6/parameters/disable
+      register: _ipv6_disabled
+
+    - name: set ipv6_enabled fact
+      set_fact:
+        is_ipv6_enabled: "{{ not _ipv6_disabled.failed and '0' in (_ipv6_disabled.content | b64decode) }}"
+
+    - name: allow binding non-local IPv6
+      sysctl:
+        name: net.ipv6.ip_nonlocal_bind
+        value: "{{ keepalived_ip_nonlocal_bind | string }}"
+        reload: true
+        state: present
+      when:
+        - keepalived_ip_nonlocal_bind | bool
+        - is_ipv6_enabled
+
   tags:
     - configuration
     - keepalived
@@ -180,6 +180,8 @@
     - keepalived-cleanup
     - keepalived-cleanup-build
 
+=======
+>>>>>>> origin/master
 - name: stat directories
   stat:
     path: "{{ item }}/"
