@@ -1,18 +1,13 @@
 # tasks file
 ---
-- name: install dependencies
+- name: install |  native | dependencies
   apt:
-    name: "{{ keepalived_dependencies }}"
+    name: "{{ keepalived_dependencies_git }}"
     state: "{{ apt_install_state | default('latest') }}"
-    update_cache: true
-    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
   tags:
-    - configuration
-    - keepalived
-    - keepalived-install
-    - keepalived-install-dependencies
+    - keepalived-install-git-dependencies
 
-- name: create (checkout) directory
+- name: install |  native | create (checkout) directory
   file:
     path: "{{ keepalived_checkout_path }}"
     state: directory
@@ -20,12 +15,10 @@
     group: root
     mode: 0755
   tags:
-    - configuration
-    - keepalived
-    - keepalived-checkout
-    - keepalived-checkout-directory
+    - keepalived-install-git-checkout
+    - keepalived-install-git-checkout-directory
 
-- name: checkout repository
+- name: install |  native | checkout repository
   git:
     repo: "{{ keepalived_git_repo }}"
     dest: "{{ keepalived_checkout_path }}"
@@ -33,12 +26,9 @@
     force: true
   register: _git_checkout
   tags:
-    - configuration
-    - keepalived
-    - keepalived-checkout
-    - keepalived-checkout-repository
+    - keepalived-install-git-checkout-repository
 
-- name: regenerate the build files
+- name: install |  native | regenerate the build files
   shell: >
     aclocal && autoheader && automake --add-missing && autoreconf
   args:
@@ -48,12 +38,10 @@
     - keepalived_version is version('v1.2.24', '>=')
     - keepalived_version is version('v2.1.0', '<')
   tags:
-    - configuration
-    - keepalived
-    - keepalived-build
-    - keepalived-build-regenerate-build-files
+    - keepalived-install-git-build
+    - keepalived-install-git-build-regenerate-build-files
 
-- name: regenerate the build files
+- name: install |  native | regenerate the build files
   shell: >
     ./build_setup
   args:
@@ -62,35 +50,29 @@
     - _git_checkout is changed
     - keepalived_version is version('v2.1.0', '>=')
   tags:
-    - configuration
-    - keepalived
-    - keepalived-build
-    - keepalived-build-regenerate-build-files
+    - keepalived-install-git-build
+    - keepalived-install-git-build-regenerate-build-files
 
-- name: build
+- name: install |  native | build
   shell: >
     ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_processor_cores + 1 }}
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: _git_checkout is changed
   tags:
-    - configuration
-    - keepalived
-    - keepalived-build
-    - keepalived-build-configure-make
+    - keepalived-install-git-build
+    - keepalived-install-git-build-configure-make
 
-- name: remove (distro version)
+- name: install |  native | remove (distro version)
   apt:
     name: keepalived
     state: absent
     purge: true
   tags:
-    - configuration
-    - keepalived
-    - keepalived-remove
-    - keepalived-remove-distro
+    - keepalived-install-git-remove
+    - keepalived-install-git-remove-distro
 
-- name: install
+- name: install |  native | install
   shell: >
     make install
   args:
@@ -98,11 +80,9 @@
   when: _git_checkout is changed
   notify: restart keepalived
   tags:
-    - configuration
-    - keepalived
-    - keepalived-install
+    - keepalived-install-git-install
 
-- name: add script user
+- name: install |  native | add script user
   user:
     name: keepalived_script
     comment: 'keepalived script'
@@ -111,19 +91,15 @@
     system: yes
   when: keepalived_create_keepalived_script_user | bool
   tags:
-    - configuration
-    - keepalived
-    - keepalived-script
-    - keepalived-script-user
+    - keepalived-install-git-script
+    - keepalived-install-git-script-user
 
-- name: cleanup build
+- name: install |  native | cleanup build
   shell: >
     git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: _git_checkout is changed
   tags:
-    - configuration
-    - keepalived
-    - keepalived-cleanup
-    - keepalived-cleanup-build
+    - keepalived-install-git-cleanup
+    - keepalived-install-git-cleanup-build

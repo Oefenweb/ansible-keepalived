@@ -1,13 +1,15 @@
 # vars file
 ---
-# Only need when keepalived_install_method == 'git'
-keepalived_dependencies:
+keepalived_dependencies_git:
   - git
   - build-essential
   - automake
   - libtool
   - pkg-config
   - libssl-dev
+  - procps
+keepalived_dependencies_native:
+  - keepalived
   - procps
 
 keepalived_checkout_path: /var/lib/ansible/keepalived/checkouts/keepalived
@@ -17,8 +19,8 @@ keepalived_configuration_file: /etc/keepalived/keepalived.conf
 keepalived_etc_systemd_file: /etc/systemd/system/keepalived.service
 keepalived_etc_init_file: /etc/init/keepalived.conf
 keepalived_install_prefix: >-
-    {%- if keepalived_install_method == 'git' -%}
-    /usr/local/sbin/
-    {%- else -%}
-    /usr/sbin/
-    {%- endif -%}
+  {%- if keepalived_install_method == 'git' -%}
+  /usr/local/sbin
+  {%- else -%}
+  /usr/sbin
+  {%- endif -%}

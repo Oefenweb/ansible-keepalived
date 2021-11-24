@@ -12,24 +12,23 @@
     - keepalived-install
     - keepalived-install-additional
 
-- name: Install for git
+- name: install | git
   include: git.yml
   when: keepalived_install_method == 'git'
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-install
+    - keepalived-install-git
 
-- name: Install from repo
-  apt:
-    name:
-      - keepalived
-      - procps
-    state: "{{ apt_install_state | default('latest') }}"
-    update_cache: true
-    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  notify: restart keepalived
+- name: install | native
+  include: native.yml
   when: keepalived_install_method == 'native'
   tags:
     - configuration
     - keepalived
     - keepalived-install
+    - keepalived-install-native
 
 - name: allow binding non-local IP
   sysctl:
