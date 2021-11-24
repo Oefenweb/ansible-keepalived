@@ -13,6 +13,6 @@ respawn
 script
   exec start-stop-daemon \
     --start \
-    --exec /usr/local/sbin/keepalived \
+    --exec {{ keepalived_install_prefix }}/keepalived \
     -- --dont-fork{% for option in keepalived_options %} --{{ option.name }}{% if option.value is defined %}={{ option.value }}{% endif %}{% endfor %} \
 end script

@@ -1,0 +1,9 @@
+# tasks file
+---
+- name: install | native | dependencies
+  apt:
+    name: "{{ keepalived_dependencies_native }}"
+    state: "{{ apt_install_state | default('latest') }}"
+  notify: restart keepalived
+  tags:
+    - keepalived-install-native-dependencies
