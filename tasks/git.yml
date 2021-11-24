@@ -1,13 +1,13 @@
 # tasks file
 ---
-- name: install |  native | dependencies
+- name: install | git | dependencies
   apt:
     name: "{{ keepalived_dependencies_git }}"
     state: "{{ apt_install_state | default('latest') }}"
   tags:
     - keepalived-install-git-dependencies
 
-- name: install |  native | create (checkout) directory
+- name: install | git | create (checkout) directory
   file:
     path: "{{ keepalived_checkout_path }}"
     state: directory
@@ -18,7 +18,7 @@
     - keepalived-install-git-checkout
     - keepalived-install-git-checkout-directory
 
-- name: install |  native | checkout repository
+- name: install | git | checkout repository
   git:
     repo: "{{ keepalived_git_repo }}"
     dest: "{{ keepalived_checkout_path }}"
@@ -28,7 +28,7 @@
   tags:
     - keepalived-install-git-checkout-repository
 
-- name: install |  native | regenerate the build files
+- name: install | git | regenerate the build files
   shell: >
     aclocal && autoheader && automake --add-missing && autoreconf
   args:
@@ -41,7 +41,7 @@
     - keepalived-install-git-build
     - keepalived-install-git-build-regenerate-build-files
 
-- name: install |  native | regenerate the build files
+- name: install | git | regenerate the build files
   shell: >
     ./build_setup
   args:
@@ -53,7 +53,7 @@
     - keepalived-install-git-build
     - keepalived-install-git-build-regenerate-build-files
 
-- name: install |  native | build
+- name: install | git | build
   shell: >
     ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_processor_cores + 1 }}
   args:
@@ -63,7 +63,7 @@
     - keepalived-install-git-build
     - keepalived-install-git-build-configure-make
 
-- name: install |  native | remove (distro version)
+- name: install | git | remove (distro version)
   apt:
     name: keepalived
     state: absent
@@ -72,7 +72,7 @@
     - keepalived-install-git-remove
     - keepalived-install-git-remove-distro
 
-- name: install |  native | install
+- name: install | git | install
   shell: >
     make install
   args:
@@ -82,7 +82,7 @@
   tags:
     - keepalived-install-git-install
 
-- name: install |  native | add script user
+- name: install | git | add script user
   user:
     name: keepalived_script
     comment: 'keepalived script'
@@ -94,7 +94,7 @@
     - keepalived-install-git-script
     - keepalived-install-git-script-user
 
-- name: install |  native | cleanup build
+- name: install | git | cleanup build
   shell: >
     git reset --hard && git clean -d -x -f
   args:
