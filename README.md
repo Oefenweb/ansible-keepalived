@@ -100,7 +100,7 @@ when using `keepalived_install_method: native`
 * `keepalived_vrrp_instances.key.notify_fault_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`)
 * `keepalived_vrrp_instances.key.notify_master`: [optional]: Scripts that is invoked when a server changes state (to `MASTER`)
 * `keepalived_vrrp_instances.key.notify_master_user`: [optional]: Specify the user / group to run this script under (since `1.3.0`)
-* `keepalived_vrrp_instances.key.unicast_peer`: [optional]: IP address(es) of aired unicast address (if you don't want to use multicast)
+* `keepalived_vrrp_instances.key.unicast_peer`: [optional]: List of IP addresses if you want to override participating unicast peers (if you don't want to use multicast)
 * `keepalived_vrrp_instances.key.unicast_src_ip`: [optional]: IP source address to use for multicast or unicast vrrp packets
 * `keepalived_vrrp_instances.key.vmac_xmit_base`: [default: `false`]: Forces VRRP to use the physical interface MAC address as source when it sends its own packets.
 * `keepalived_vrrp_instances.key.raw_options`: [optional]: An optional list of raw parameters to add to the vrrp instance
