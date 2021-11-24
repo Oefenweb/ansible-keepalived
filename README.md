@@ -14,12 +14,17 @@ Set up the latest or a specific version of [Keepalived](http://www.keepalived.or
 * `pkg-config` (will be installed)
 * `libssl-dev` (will be installed)
 
+when using `keepalived_install_method: native`
+
+* `keepalived` (will be installed)
+* `procps` (will be installed)
+
 #### Variables
 
 * `keepalived_git_repo`: [default: `https://github.com/acassen/keepalived.git`]: Keepalived git repo
 * `keepalived_version`: [default: `v2.2.2`]: Keepalived version to install
 
-* `keepalived_install_method`: [optional, default `git`]: how to install keepalived (actually it's support git/native)
+* `keepalived_install_method`: [default `git`]: The way to install Keepalived (e.g. `native` (from Ubuntu repo), `git`)
 * `keepalived_install`: [default: `[]`]: Additional packages to install (e.g. `['libnl-3-dev', 'libnl-genl-3-dev', 'libnl-route-3-dev', 'libnfnetlink-dev']`)
 * `keepalived_configure_options`: [default: `[]`]: Options to pass to `./configure`
 
