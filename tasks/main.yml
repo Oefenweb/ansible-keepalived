@@ -30,13 +30,35 @@
     - keepalived-install
     - keepalived-install-native
 
-- name: allow binding non-local IP
-  sysctl:
-    name: net.ipv4.ip_nonlocal_bind
-    value: "{{ keepalived_ip_nonlocal_bind | string }}"
-    reload: true
-    state: present
-  when: keepalived_ip_nonlocal_bind | bool
+- block:
+
+    - name: allow binding non-local IPv4
+      sysctl:
+        name: net.ipv4.ip_nonlocal_bind
+        value: "{{ keepalived_ip_nonlocal_bind | string }}"
+        reload: true
+        state: present
+      when: keepalived_ip_nonlocal_bind | bool
+
+    - name: check if IPv6 is enabled
+      slurp:
+        src: /sys/module/ipv6/parameters/disable
+      register: _ipv6_disabled
+
+    - name: set ipv6_enabled fact
+      set_fact:
+        is_ipv6_enabled: "{{ not _ipv6_disabled.failed and '0' in (_ipv6_disabled.content | b64decode) }}"
+
+    - name: allow binding non-local IPv6
+      sysctl:
+        name: net.ipv6.ip_nonlocal_bind
+        value: "{{ keepalived_ip_nonlocal_bind | string }}"
+        reload: true
+        state: present
+      when:
+        - keepalived_ip_nonlocal_bind | bool
+        - is_ipv6_enabled
+
   tags:
     - configuration
     - keepalived

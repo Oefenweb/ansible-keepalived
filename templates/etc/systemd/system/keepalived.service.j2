@@ -4,6 +4,7 @@
 Description=Keepalived
 After=network-online.target
 Wants=network-online.target
+ConditionFileNotEmpty={{ keepalived_configuration_file }}
 
 [Service]
 Type=simple
