@@ -118,6 +118,14 @@
     - keepalived
     - keepalived-scripts
 
+- name: check configuration file
+  command: |
+    keepalived -f {{ keepalived_configuration_file }} -C -e -t
+  changed_when: false
+  tags:
+    - configuration
+    - keepalived
+
 - include: service-upstart.yml
   when: ansible_service_mgr != 'systemd'
   tags:
