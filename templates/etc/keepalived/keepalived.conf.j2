@@ -142,6 +142,7 @@ vrrp_instance {{ key }} {
 {% endif %}
 
 {% if value.vmac_xmit_base is defined and value.vmac_xmit_base | bool %}
+  use_vmac
   vmac_xmit_base
 {% endif %}
 
