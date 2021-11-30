@@ -98,6 +98,7 @@
     owner: root
     group: root
     mode: 0640
+    validate: "{{ keepalived_install_prefix }}/keepalived --use-file=%s --check --all-config --config-test"
   notify: restart keepalived
   tags:
     - configuration
@@ -117,25 +118,6 @@
     - configuration
     - keepalived
     - keepalived-scripts
-
-# ignore_errors, so we can print pretty message afterwards
-- name: check configuration file
-  command: |
-    keepalived --use-file={{ keepalived_configuration_file }} --check --all-config --config-test
-  register: keepalived_config_test_result
-  changed_when: false
-  ignore_errors: true
-  tags:
-    - configuration
-    - keepalived
-
-- name: print error message from keepalived configuration config test
-  fail:
-    msg: "keepalived config-test failed with: {{ keepalived_config_test_result.stderr }}"
-  when: keepalived_config_test_result.rc != 0
-  tags:
-    - configuration
-    - keepalived
 
 - include: service-upstart.yml
   when: ansible_service_mgr != 'systemd'
