@@ -102,6 +102,14 @@ vrrp_instance {{ key }} {
 {% endfor %}
   }
 
+{% if value.virtual_routes %}
+  virtual_routes {
+{% for virtual_route in value.virtual_routes %}
+    {{ virtual_route }}
+{% endfor %}
+  }
+{% endif %}
+
 {% if value.virtual_ipaddresses_excluded is defined %}
   virtual_ipaddress_excluded {
 {% for virtual_ipaddress in value.virtual_ipaddresses_excluded | default([]) %}
