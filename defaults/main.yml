@@ -6,6 +6,7 @@ keepalived_version: v2.2.2
 keepalived_install: []
 keepalived_configure_options: []
 keepalived_options: []
+keepalived_install_systemd_file: true
 
 keepalived_ip_nonlocal_bind: '1'
 

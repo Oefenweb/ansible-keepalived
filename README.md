@@ -107,6 +107,7 @@ when using `keepalived_install_method: native`
 * `keepalived_vrrp_instances.key.unicast_src_ip`: [optional]: IP source address to use for multicast or unicast vrrp packets
 * `keepalived_vrrp_instances.key.vmac_xmit_base`: [default: `false`]: Forces VRRP to use the physical interface MAC address as source when it sends its own packets.
 * `keepalived_vrrp_instances.key.raw_options`: [optional]: An optional list of raw parameters to add to the vrrp instance
+* `keepalived_install_systemd_file`: [optional, default: `true`]: If service file for systemd should be installed
 
 * `keepalived_vrrp_sync_groups`: [default: `{}`]: VRRP group instance declarations
 * `keepalived_vrrp_sync_groups.key`: The name of the VRRP group instance

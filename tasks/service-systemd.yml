@@ -7,6 +7,7 @@
     owner: root
     group: root
     mode: 0644
+  when: keepalived_install_systemd_file
   register: _update_systemd_script
   notify: restart keepalived
   tags:
