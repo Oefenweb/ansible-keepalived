@@ -98,6 +98,7 @@
     owner: root
     group: root
     mode: 0640
+    validate: "{{ keepalived_install_prefix }}/keepalived --use-file=%s --check --config-test"
   notify: restart keepalived
   tags:
     - configuration
