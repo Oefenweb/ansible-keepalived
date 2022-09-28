@@ -4,4 +4,4 @@ warn_list:
   - name[casing]
   - no-handler
   - command-instead-of-module
-  - yaml
+  - yaml[comments-indentation]
