@@ -20,8 +20,8 @@ global_defs {
   {{ global_def_raw }}
 {% endfor %}
 }
-
 {% for key, value in keepalived_vrrp_scripts.items() | sort %}
+
 vrrp_script {{ key }} {
   script "{{ value.script }}"
 {% if value.weight is defined %}
@@ -44,8 +44,8 @@ vrrp_script {{ key }} {
 {% endif %}
 }
 {% endfor %}
-
 {% for key, value in keepalived_vrrp_track_processes.items() | sort %}
+
 vrrp_track_process {{ key }} {
   process {{ value.process }}
 {% if value.param_match is defined %}
@@ -84,12 +84,13 @@ vrrp_instance {{ key }} {
 {% if value.advert_int is defined and value.advert_int | int %}
   advert_int {{ value.advert_int }}
 {% endif %}
-
 {% if value.smtp_alert is defined and value.smtp_alert | bool %}
+
   smtp_alert
 {% endif %}
 
 {% if value.authentication is defined %}
+
   authentication {
     auth_type {{ value.authentication.auth_type }}
     auth_pass {{ value.authentication.auth_pass }}
@@ -101,55 +102,55 @@ vrrp_instance {{ key }} {
     {{ virtual_ipaddress }}
 {% endfor %}
   }
-
 {% if value.virtual_ipaddresses_excluded is defined %}
+
   virtual_ipaddress_excluded {
 {% for virtual_ipaddress in value.virtual_ipaddresses_excluded | default([]) %}
     {{ virtual_ipaddress }}
 {% endfor %}
   }
 {% endif %}
-
 {% if value.nopreempt is defined and value.nopreempt | bool %}
+
   nopreempt
 {% endif %}
 {% if value.preempt_delay is defined %}
   preempt_delay {{ value.preempt_delay }}
 {% endif %}
-
 {% if value.track_interfaces is defined %}
+
   track_interface {
 {% for track_interface in value.track_interfaces %}
     {{ track_interface }}
 {% endfor %}
   }
 {% endif %}
-
 {% if value.track_scripts is defined %}
+
   track_script {
 {% for track_script in value.track_scripts %}
     {{ track_script }}
 {% endfor %}
   }
 {% endif %}
-
 {% if value.track_processes is defined %}
+
   track_process {
 {% for track_process in value.track_processes %}
     {{ track_process }}
 {% endfor %}
   }
 {% endif %}
-
 {% if value.vmac_xmit_base is defined and value.vmac_xmit_base | bool %}
+
   vmac_xmit_base
 {% endif %}
-
 {% if value.unicast_src_ip is defined %}
+
   unicast_src_ip {{ value.unicast_src_ip }}
 {% endif %}
-
 {% if value.unicast_peer is defined %}
+
   unicast_peer {
 {% if value.unicast_peer is string %}
     {{ value.unicast_peer }}
@@ -160,8 +161,8 @@ vrrp_instance {{ key }} {
 {% endif %}
   }
 {% endif %}
-
 {% if value.notify is defined %}
+
   notify "{{ value.notify }}" {{ value.notify_user | default('') }}
 {% endif %}
 {% if value.notify_backup is defined %}
