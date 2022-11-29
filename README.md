@@ -105,6 +105,13 @@ when using `keepalived_install_method: native`
 * `keepalived_vrrp_instances.key.vmac_xmit_base`: [default: `false`]: Forces VRRP to use the physical interface MAC address as source when it sends its own packets.
 * `keepalived_vrrp_instances.key.raw_options`: [optional]: An optional list of raw parameters to add to the vrrp instance
 
+* `keepalived_vrrp_sync_groups`: [default: `{}`]: VRRP group instance declarations
+* `keepalived_vrrp_sync_groups.key`: The name of the VRRP group instance
+* `keepalived_vrrp_sync_groups.key.instances:`: List of vrrp instances for this group
+* `keepalived_vrrp_sync_groups.notify_master`: [optional]: Scripts that is invoked when a server changes state (to `MASTER`)
+* `keepalived_vrrp_sync_groups.key.notify_backup`: [optional]: Scripts that is invoked when a server changes state (to `BACKUP`)
+* `keepalived_vrrp_sync_groups.key.notify_fault`: [optional]: Scripts that is invoked when a VRRP group server changes state (to `FAULT`)
+
 #### Dependencies
 
 None

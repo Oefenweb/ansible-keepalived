@@ -75,6 +75,27 @@ vrrp_track_process {{ key }} {
 }
 {% endfor %}
 
+{% if keepalived_vrrp_sync_groups is defined %}
+{% for name, sync_group in keepalived_vrrp_sync_groups.items() %}
+
+vrrp_sync_group {{ name }} {
+  group {
+    {% for instance in sync_group.instances -%}
+      {{ instance }}
+    {% endfor -%}
+  }
+{% if sync_group.notify_master is defined %}
+  notify_master "{{ sync_group.notify_master }}"
+{% endif %}
+{% if sync_group.notify_backup is defined %}
+  notify_backup "{{ sync_group.notify_backup }}"
+{% endif %}
+{% if sync_group.notify_fault is defined %}
+  notify_fault "{{ sync_group.notify_fault }}"
+{% endif %}
+}
+{% endfor %}
+{% endif %}
 {% for key, value in keepalived_vrrp_instances.items() | sort %}
 vrrp_instance {{ key }} {
   interface {{ value.interface }}
