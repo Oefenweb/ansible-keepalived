@@ -108,9 +108,9 @@ when using `keepalived_install_method: native`
 * `keepalived_vrrp_sync_groups`: [default: `{}`]: VRRP group instance declarations
 * `keepalived_vrrp_sync_groups.key`: The name of the VRRP group instance
 * `keepalived_vrrp_sync_groups.key.instances:`: List of vrrp instances for this group
-* `keepalived_vrrp_sync_groups.notify_master`: [optional]: Scripts that is invoked when a server changes state (to `MASTER`)
-* `keepalived_vrrp_sync_groups.key.notify_backup`: [optional]: Scripts that is invoked when a server changes state (to `BACKUP`)
-* `keepalived_vrrp_sync_groups.key.notify_fault`: [optional]: Scripts that is invoked when a VRRP group server changes state (to `FAULT`)
+* `keepalived_vrrp_sync_groups.notify_master`: [optional]: Scripts that is invoked when VRRP group changes state (to `MASTER`)
+* `keepalived_vrrp_sync_groups.key.notify_backup`: [optional]: Scripts that is invoked when VRRP group changes state (to `BACKUP`)
+* `keepalived_vrrp_sync_groups.key.notify_fault`: [optional]: Scripts that is invoked when VRRP group changes state (to `FAULT`)
 
 #### Dependencies
 
