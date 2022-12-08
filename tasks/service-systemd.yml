@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: service | systemd | update script
-  template:
+  ansible.builtin.template:
     src: "{{ keepalived_etc_systemd_file.lstrip('/') }}.j2"
     dest: "{{ keepalived_etc_systemd_file }}"
     owner: root
@@ -13,7 +13,7 @@
     - keepalived-service-systemd-update
 
 - name: service | systemd | reload
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
   when: _update_systemd_script is changed
   tags:

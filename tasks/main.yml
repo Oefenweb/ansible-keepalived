@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: install additional
-  apt:
+  ansible.builtin.apt:
     name: "{{ keepalived_install }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
@@ -13,7 +13,7 @@
     - keepalived-install-additional
 
 - name: install | git
-  include: git.yml
+  ansible.builtin.import_tasks: git.yml
   when: keepalived_install_method == 'git'
   tags:
     - configuration
@@ -22,7 +22,7 @@
     - keepalived-install-git
 
 - name: install | native
-  include: native.yml
+  ansible.builtin.import_tasks: native.yml
   when: keepalived_install_method == 'native'
   tags:
     - configuration
@@ -30,10 +30,15 @@
     - keepalived-install
     - keepalived-install-native
 
-- block:
+- name: binding non-local IP
+  tags:
+    - configuration
+    - keepalived
+    - keepalived-ip-nonlocal-bind
+  block:
 
     - name: allow binding non-local IPv4
-      sysctl:
+      ansible.posix.sysctl:
         name: net.ipv4.ip_nonlocal_bind
         value: "{{ keepalived_ip_nonlocal_bind | string }}"
         reload: true
@@ -41,16 +46,16 @@
       when: keepalived_ip_nonlocal_bind | bool
 
     - name: check if IPv6 is enabled
-      slurp:
+      ansible.builtin.slurp:
         src: /sys/module/ipv6/parameters/disable
       register: _ipv6_disabled
 
     - name: set ipv6_enabled fact
-      set_fact:
+      ansible.builtin.set_fact:
         is_ipv6_enabled: "{{ not _ipv6_disabled.failed and '0' in (_ipv6_disabled.content | b64decode) }}"
 
     - name: allow binding non-local IPv6
-      sysctl:
+      ansible.posix.sysctl:
         name: net.ipv6.ip_nonlocal_bind
         value: "{{ keepalived_ip_nonlocal_bind | string }}"
         reload: true
@@ -59,13 +64,8 @@
         - keepalived_ip_nonlocal_bind | bool
         - is_ipv6_enabled
 
-  tags:
-    - configuration
-    - keepalived
-    - keepalived-ip-nonlocal-bind
-
 - name: stat directories
-  stat:
+  ansible.builtin.stat:
     path: "{{ item }}/"
   register: _stat_directories
   with_items:
@@ -77,7 +77,7 @@
     - keepalived-configure-directories-stat
 
 - name: create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.item }}"
     state: directory
     owner: root
@@ -92,7 +92,7 @@
     - keepalived-configure-directories-create
 
 - name: update configuration file
-  template:
+  ansible.builtin.template:
     src: "{{ keepalived_configuration_file.lstrip('/') }}.j2"
     dest: "{{ keepalived_configuration_file }}"
     owner: root
@@ -105,7 +105,7 @@
     - keepalived-configuration
 
 - name: copy script files
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.value.src }}"
     dest: "{{ item.value.dest }}"
     owner: "{{ item.value.owner | default('root') }}"
@@ -118,7 +118,8 @@
     - keepalived
     - keepalived-scripts
 
-- include: service-upstart.yml
+- name: service upstart
+  ansible.builtin.import_tasks: service-upstart.yml
   when: ansible_service_mgr != 'systemd'
   tags:
     - configuration
@@ -126,7 +127,8 @@
     - keepalived-service
     - keepalived-service-upstart
 
-- include: service-systemd.yml
+- name: service systemd
+  ansible.builtin.import_tasks: service-systemd.yml
   when: ansible_service_mgr == 'systemd'
   tags:
     - configuration
@@ -135,7 +137,7 @@
     - keepalived-service-systemd
 
 - name: start and enable service
-  service:
+  ansible.builtin.service:
     name: keepalived
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"

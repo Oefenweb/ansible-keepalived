@@ -5,3 +5,4 @@ warn_list:
   - no-handler
   - command-instead-of-module
   - yaml[comments-indentation]
+  - jinja[spacing]
