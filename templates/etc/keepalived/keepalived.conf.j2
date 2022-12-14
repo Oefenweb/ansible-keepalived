@@ -102,9 +102,9 @@ vrrp_instance {{ key }} {
 {% endfor %}
   }
 
-{% if value.virtual_routes %}
+{% if value.virtual_routes is defined %}
   virtual_routes {
-{% for virtual_route in value.virtual_routes %}
+{% for virtual_route in value.virtual_routes | default([]) %}
     {{ virtual_route }}
 {% endfor %}
   }
