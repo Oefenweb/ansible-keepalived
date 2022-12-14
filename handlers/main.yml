@@ -1,7 +1,7 @@
 # handlers file
 ---
 - name: restart keepalived
-  service:
+  ansible.builtin.service:
     name: keepalived
     state: restarted
   when: service_default_state | default('started') == 'started'

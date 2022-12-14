@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: service | upstart | update script
-  template:
+  ansible.builtin.template:
     src: "{{ keepalived_etc_init_file.lstrip('/') }}.j2"
     dest: "{{ keepalived_etc_init_file }}"
     owner: root
