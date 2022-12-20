@@ -21,5 +21,6 @@ keepalived_vrrp_script_map: {}
 
 keepalived_vrrp_scripts: {}
 keepalived_vrrp_track_processes: {}
+keepalived_vrrp_sync_groups: {}
 
 keepalived_vrrp_instances: {}
