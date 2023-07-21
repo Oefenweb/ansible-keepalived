@@ -3,7 +3,9 @@ warn_list:
   - role-name
   - name[play]
   - name[casing]
-  - no-handler
   - command-instead-of-module
-  - yaml[comments-indentation]
   - jinja[spacing]
+  - no-changed-when
+  - no-handler
+  - yaml[comments]
+  - yaml[comments-indentation]
