@@ -1,6 +1,7 @@
 ---
 warn_list:
   - role-name
+  - name[play]
   - name[casing]
   - no-handler
   - command-instead-of-module
