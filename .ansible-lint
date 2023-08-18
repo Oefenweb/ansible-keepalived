@@ -4,8 +4,6 @@ warn_list:
   - name[play]
   - name[casing]
   - command-instead-of-module
-  - jinja[spacing]
   - no-changed-when
   - no-handler
-  - yaml[comments]
-  - yaml[comments-indentation]
+  - jinja[spacing]
