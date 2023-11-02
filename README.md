@@ -123,7 +123,7 @@ None
 ---
 - hosts: all
   roles:
-    - keepalived
+    - oefenweb.keepalived
   vars:
     keepalived_options:
       - name: log-detail
