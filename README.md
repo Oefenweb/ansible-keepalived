@@ -44,6 +44,8 @@ when using `keepalived_install_method: native`
 * `keepalived_global_defs_enable_script_security`: [optional]: Don't run scripts configured to be run as `root` if any part of the path is writable by a `non-root` user (since `1.3.0`, e.g. `true`)
 * `keepalived_global_defs_raw`: [optional]: An optional list of raw parameters to add to the `global_defs` config section
 
+* `keepalived_static_routes`: [default: `{}`]: Static routes
+
 * `keepalived_vrrp_script_map`: [default: `{}`]: Script declarations
 * `keepalived_vrrp_script_map.key`: [required]: The identifier of the file (e.g. `check-haproxy`)
 * `keepalived_vrrp_script_map.key.src`: [required]: The local path of the file to copy, can be absolute or relative (e.g. `../../../files/keepalived/usr/local/bin/check-haproxy`)
@@ -105,6 +107,7 @@ when using `keepalived_install_method: native`
 * `keepalived_vrrp_instances.key.unicast_src_ip`: [optional]: IP source address to use for multicast or unicast vrrp packets
 * `keepalived_vrrp_instances.key.vmac_xmit_base`: [default: `false`]: Forces VRRP to use the physical interface MAC address as source when it sends its own packets.
 * `keepalived_vrrp_instances.key.raw_options`: [optional]: An optional list of raw parameters to add to the vrrp instance
+* `keepalived_install_systemd_file`: [optional, default: `true`]: If service file for systemd should be installed
 
 * `keepalived_vrrp_sync_groups`: [default: `{}`]: VRRP group instance declarations
 * `keepalived_vrrp_sync_groups.key`: The name of the VRRP group instance
