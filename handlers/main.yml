@@ -5,3 +5,9 @@
     name: keepalived
     state: restarted
   when: service_default_state | default('started') == 'started'
+
+- name: reload keepalived
+  ansible.builtin.service:
+    name: keepalived
+    state: reloaded
+  when: service_default_state | default('started') == 'started'
