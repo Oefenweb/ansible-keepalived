@@ -98,7 +98,7 @@
     owner: root
     group: root
     mode: 0640
-  notify: restart keepalived
+  notify: reload keepalived
   tags:
     - configuration
     - keepalived
@@ -112,7 +112,7 @@
     group: "{{ item.value.group | default('root') }}"
     mode: "{{ item.value.mode | default('0750') }}"
   with_dict: "{{ keepalived_vrrp_script_map }}"
-  notify: restart keepalived
+  notify: reload keepalived
   tags:
     - configuration
     - keepalived
