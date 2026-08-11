@@ -13,7 +13,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   tags:
     - keepalived-install-git-checkout
     - keepalived-install-git-checkout-directory
@@ -55,7 +55,7 @@
 
 - name: install | git | build
   ansible.builtin.shell: >
-    ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_processor_cores + 1 }}
+    ./configure {{ keepalived_configure_options | join(' ') }} && make -j{{ ansible_facts['processor_cores'] + 1 }}
   args:
     chdir: "{{ keepalived_checkout_path }}"
   when: _git_checkout is changed
