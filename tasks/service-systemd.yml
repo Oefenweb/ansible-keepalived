@@ -6,7 +6,7 @@
     dest: "{{ keepalived_etc_systemd_file }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   register: _update_systemd_script
   notify: restart keepalived
   tags:

@@ -82,7 +82,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   with_items: "{{ _stat_directories.results }}"
   when: not item.stat.exists
   tags:
@@ -97,7 +97,7 @@
     dest: "{{ keepalived_configuration_file }}"
     owner: root
     group: root
-    mode: 0640
+    mode: '0640'
   notify: restart keepalived
   tags:
     - configuration
@@ -120,7 +120,7 @@
 
 - name: service upstart
   ansible.builtin.import_tasks: service-upstart.yml
-  when: ansible_service_mgr != 'systemd'
+  when: ansible_facts['service_mgr'] != 'systemd'
   tags:
     - configuration
     - keepalived
@@ -129,7 +129,7 @@
 
 - name: service systemd
   ansible.builtin.import_tasks: service-systemd.yml
-  when: ansible_service_mgr == 'systemd'
+  when: ansible_facts['service_mgr'] == 'systemd'
   tags:
     - configuration
     - keepalived

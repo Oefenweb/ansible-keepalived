@@ -34,7 +34,7 @@ when using `keepalived_install_method: native`
 
 * `keepalived_ip_nonlocal_bind`: [default: `1`]: Allow to bind to IP addresses that are nonlocal, meaning that they're not assigned to a device on the local system
 
-* `keepalived_create_keepalived_script_user`: [default: `false`]: Whether or not to create the `keepalived_script` user, see `keepalived_global_defs_script_user`
+* `keepalived_create_keepalived_script_user`: [default: `false`]: Whether to create the `keepalived_script` user, see `keepalived_global_defs_script_user`
 
 * `keepalived_global_defs_notification_email`: [default: `['root@localhost.localdomain']`]: Email addresses to send alerts to
 * `keepalived_global_defs_notification_email_from`: [default: `'root@localhost.localdomain'`]: From address that will be in header
@@ -80,7 +80,7 @@ when using `keepalived_install_method: native`
 * `keepalived_vrrp_instances.key.priority`: For electing `MASTER` highest priority (`0...255`) wins
 * `keepalived_vrrp_instances.key.virtual_router_id`: Arbitrary unique number (`0...255`) used to differentiate multiple instances of VRRPD running on the same NIC (and hence same socket)
 * `keepalived_vrrp_instances.key.advert_int`: [optional]: The advert interval in seconds
-* `keepalived_vrrp_instances.key.smtp_alert`: [optional]: Whether or not to send email notifications during state transitioning-
+* `keepalived_vrrp_instances.key.smtp_alert`: [optional]: Whether to send email notifications during state transitioning-
 * `keepalived_vrrp_instances.key.authentication`: [optional]: Authentication block
 * `keepalived_vrrp_instances.key.authentication.auth_type`: Simple password or IPSEC AH (`PASS|AH`)
 * `keepalived_vrrp_instances.key.authentication.auth_pass`: Password string (up to 8 characters)
